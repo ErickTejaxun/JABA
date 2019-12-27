@@ -65,9 +65,7 @@ function compilar(raiz)
             else
 
             {
-
                 element.ejecutar();
-
             }
 
         });  

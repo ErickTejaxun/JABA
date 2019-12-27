@@ -12,7 +12,7 @@
     "escodegen": "^1.11.1",
     "express": "^4.6.1",
     "express-ejs-layouts": "^1.1.0",
-    "jison": "file:jison/jison",
+    "jison": "^0.4.18",
     "jison-lex": "^0.3.4",
     "json-parser": "^1.1.5",
     "lex-parser": "^0.1.4",

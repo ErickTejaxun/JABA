@@ -572,8 +572,13 @@ var Declaracion = function(linea, columna, tipo, id, exp)
         var posicion = generarTemporal();
         lista3D.push(posicion + " = p + "+ simbolo.posicion + ";\t// Posicion relativa de la variable " + self.id);        
         var result = self.expresion.generarCodigo(entorno);   
-        console.log(result);
-        lista3D.push("stack["+posicion+"] = "+result.valor + ";\t// Asignandole el valor a la variable " +self.id);
+        if(result !=null)
+        {
+            lista3D.push("stack["+posicion+"] = "+result.valor + ";\t// Asignandole el valor a la variable " +self.id);
+            return;
+        }        
+        //listaErrores.push("Error");
+        console.log("Error linea:\t "+self.linea +"\tcolumna:\t"+self.columna);
     }    
 };
 
@@ -938,10 +943,10 @@ var ExpString = function(linea, columna, v)
         for(i = 0 ; i < self.valor.length  ; i++)
         {                 
             lista3D.push("heap[h] = " +self.valor[i].charCodeAt(0) + ";\t//"+self.valor[i] );
-            lista3D.push(" h = h + 1;");                                     
+            lista3D.push("h = h + 1;");                                     
         }
         lista3D.push("heap[h] = " +nulo + ";\t// Fin de cadena");
-        lista3D.push(" h = h + 1;"); 
+        lista3D.push("h = h + 1;"); 
         var resultado = new Resultado(self.linea, self.columna, tmp, "", "string");            
         return resultado;        
     }    
@@ -1016,42 +1021,49 @@ var ExpId = function(linea, columna, id)
     self.id = id;
 
     self.generarCodigo = function(entorno)
-    {
+    {        
         var tmp1 = generarTemporal();
         var tmp2 = generarTemporal();
-        var simbolo = entorno.buscarSimbolo(self.id);
-        lista3D.push(tmp1 + " = p + "+ simbolo.posicion + "; // Posicion local "+id);
-        lista3D.push(tmp2 + " = stack["+tmp1 +"] ; // Valor de "+id);
-        //console.log(simbolo);        
-        if(simbolo.tipo == "string")
+        var simbolo = entorno.buscarSimbolo(self.id);    
+        console.log("Variable "+ simbolo.id + " encontarada");
+        console.log("Variable tipo "+ simbolo.tipo + " encontarada");
+        if(simbolo !=  null)
         {
-            var tmp3 = generarTemporal();
-            lista3D.push(tmp3 + " = stack["+tmp2 +"] ; // Direccion en el heap");
-            var resultado = new Resultado(self.linea, self.columna, tmp3, tmp2, 1);
-            resultado.flag = 0;
-            return resultado;        
+            lista3D.push(tmp1 + " = p + "+ simbolo.posicion + "; // Posicion local "+id);
+            lista3D.push(tmp2 + " = stack["+tmp1 +"] ; // Valor de "+id);
+            //console.log(simbolo);        
+            if(simbolo.tipo == "string")
+            {
+                var tmp3 = generarTemporal();
+                lista3D.push(tmp3 + " = stack["+tmp2 +"] ; // Direccion en el heap");
+                var resultado = new Resultado(self.linea, self.columna, tmp3, tmp2, 1);
+                resultado.flag = 0;
+                return resultado;        
+            }
+            else 
+            if(simbolo.tipo == "int")
+            {
+                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, 0);
+                resultado.flag = 1;
+                return resultado;        
+            }
+            else 
+            if(simbolo.tipo == "double")
+            {
+                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, 0);
+                resultado.flag = 2;
+                return resultado;        
+            }  
+            else
+            if(simbolo.tipo == "boolean")
+            {
+                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, 0);
+                resultado.flag = 2;
+                return resultado;        
+            }
         }
-        else 
-        if(simbolo.tipo == "int")
-        {
-            var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, 0);
-            resultado.flag = 1;
-            return resultado;        
-        }
-        else 
-        if(simbolo.tipo == "double")
-        {
-            var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, 0);
-            resultado.flag = 2;
-            return resultado;        
-        }  
-        else
-        if(simbolo.tipo == "boolean")
-        {
-            var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, 0);
-            resultado.flag = 2;
-            return resultado;        
-        }              
+        console.log("No se ha encontrado la variable "+ self.id);
+              
     }
 };
 

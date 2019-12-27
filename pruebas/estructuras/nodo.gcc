@@ -1,0 +1,102 @@
+/*
+    Archivo de estructuras de list 
+*/
+
+importar('C:\gcc\estructuras\estructuras\usuario.gcc');
+
+clase nodo{
+
+
+    estructura nodo
+    [
+        usuario user;
+        nodo ptr_siguiente;
+    ];
+
+    vacio insertaSiguiente(nodo actual, Caracter nombre[25], Caracter apellido[25], Caracter email[25], Caracter genero[25], Entero edad, Booleano estado )
+    {
+        nodo new; //Iniciar new nodo
+        new.nombre = nombre;
+        new.apellido = apellido;
+        new.email  = email;
+        new.genero = genero;
+        new.edad = edad;
+        new.estado = estado;
+
+        actual.ptr_siguiente = new;
+    }
+
+
+    vacio iniciarNodo(nodo new, Caracter nombre[25], Caracter apellido[25], Caracter email[25], Caracter genero[25], Entero edad, Booleano estado )
+    {    
+        new.nombre = nombre;
+        new.apellido = apellido;
+        new.email  = email;
+        new.genero = genero;
+        new.edad = edad;
+        new.estado = estado;    
+    }
+
+    vacio actualizarSaldo(nodo list, Caracter nombre, decimal saldo)
+    {
+        nodo aux = list;
+        Repetir_Mientras(aux!=nada)
+        {
+            si(aux.nombre == nombre)
+            es_verdadero
+            {
+                aux.saldo = saldo;
+            }
+            fin-si
+        }
+    }
+
+    vacio recorrerLista(nodo inicio)
+    {
+        nodo aux = inicio;
+        Repetir_Mientras(aux!=nada)
+        {
+            imprimir (concatenar("\n",aux.nombre));
+            aux = aux.ptr_siguiente;
+        }
+    }
+
+    vacio ordenarLista(nodo inicio)
+    {
+        //nodo actual, siguiente;
+        nodo actual;
+        nodo siguiente;
+        int saldo;
+        
+        actual = inicio;
+        Repetir_Mientras(actual.ptr_siguiente !=Nada)
+        {
+            siguiente = actual.ptr_siguiente;
+
+            Repetir_Mientras(siguiente != nada)
+            {
+                si(actual.saldo > siguiente.saldo)
+                es_verdadero
+                {
+                    saldo = siguiente.saldo;
+                    siguiente.saldo = actual.saldo;
+                    actual.saldo = saldo;                                             
+                }
+                fin-si
+                siguiente = siguiente.ptr_siguiente;            
+            }
+            actual = acutal.ptr_siguiente;
+            siguiente = actual.ptr_siguiente;
+        }
+        imprimir("Lista ordenado por saldo.");
+        imprimir('Lista ordenado por saldo ');
+        suma(obtenerDireccion(numero1));
+    }
+
+
+    entero suma(Persona per, entero parametro2)
+    {
+      retornar per.operador1 + operador2;   
+    }
+
+}

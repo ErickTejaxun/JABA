@@ -1,0 +1,24 @@
+{
+  "name": "node-ejs",
+  "main": "server.js",
+  "dependencies": {
+    "JSONSelect": "^0.4.0",
+    "aws-sdk": "^2.453.0",
+    "cjson": "^0.5.0",
+    "codemirror": "^5.36.0",
+    "debug": "^3.1.0",
+    "ebnf-parser": "^0.1.10",
+    "ejs": "^1.0.0",
+    "escodegen": "^1.11.1",
+    "express": "^4.6.1",
+    "express-ejs-layouts": "^1.1.0",
+    "jison": "file:jison/jison",
+    "jison-lex": "^0.3.4",
+    "json-parser": "^1.1.5",
+    "lex-parser": "^0.1.4",
+    "node-run-cmd": "^1.0.1",
+    "nomnom": "^1.8.1",
+    "pg": "^7.4.1",
+    "pg-promise": "^8.3.2"
+  }
+}

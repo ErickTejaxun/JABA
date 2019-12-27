@@ -1,0 +1,35 @@
+importar('C:\ gcc \estructura_s\estructuras\nodo.gcc');
+
+clase estructuras
+{
+
+    principal()
+    {
+        imprimir("Lista enlazada de usuarios");
+
+        nodo listaUsuarios;
+        iniciarNodo(listaUsuarios, "Erick", "Tejaxun", "erickteja@gmail.com", "M", 24, verdadero ); // Primer valor
+        /*Iniciamos unos valores*/
+        insertaSiguiente("Juan", "Lopez", "jl@hotmail.com", "M", 30, verdadero );
+        insertaSiguiente("Edgar","Estrada","ee@hotmail.com","M",25,VERDADERO);
+        insertaSiguiente("Kimberly","Barrios","kmb@gmail.com","F",25,VERDADERO);
+        insertaSiguiente("Cristina","Ramirez","cr@gt.com","F",25,VERDADERO);
+        insertaSiguiente("Gabriela","Alvarez","gba@gmail.com","F",22,VERDADERO);    
+
+        /*Actualizamos los saldos de los usuarios.*/
+        actualizarSaldo( listaUsuarios, "Erick", 53000.00);
+        actualizarSaldo( listaUsuarios, "Juan", 253000.00);
+        actualizarSaldo( listaUsuarios, "Edgar", 75000.00);
+        actualizarSaldo( listaUsuarios, "Kimberly", 20000.00);
+        actualizarSaldo( listaUsuarios, "Cristina", 30000.00);
+        actualizarSaldo( listaUsuarios, "Gabriela", 22000.00);
+
+        /*Ordenamos la lista de menor a mayor*/
+        ordenarLista(listaUsuarios);
+
+        /*Imprimos la lista*/
+        recorrerLista(inicio);
+
+        imprimir("Fin Ejecución");
+    }
+}

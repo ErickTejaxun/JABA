@@ -1,0 +1,19 @@
+/*
+    Archivo de estructuras de usuario 
+*/
+
+clase usuario
+{
+    estructura user
+    [
+        Caracter nombre[25];
+        Caracter apellido[25];
+        Caracter email[25];
+        Caracter genero ;
+        Entero edad;    
+        Booleano estado; // True alta, false baja.
+        Decimal saldo = 1000.00;
+    ];
+}
+
+

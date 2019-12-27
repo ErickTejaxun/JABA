@@ -1,0 +1,337 @@
+nuevo = 5 +5 
+
+var Llamada = function(linea, columna, tipo, id, exp)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.tipo = tipo;
+    self.id = id;
+    self.expresion = exp;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+var Declaracion = function(linea, columna, tipo, id, exp)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.tipo = tipo;
+    self.id = id;
+    self.expresion = exp;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+var Asignacion = function(linea, columna, id, exp)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.id = id ;
+    self.expresion = exp;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+
+var Or = function(linea, columna, i, d)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.operandoI = i;
+    self.operandoD = d;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+
+
+var And = function(linea, columna, i, d)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.operandoI = i;
+    self.operandoD = d;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+
+var MenorIgual = function(linea, columna, i, d)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.operandoI = i;
+    self.operandoD = d;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+
+var MayorIgual = function(linea, columna, i, d)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.operandoI = i;
+    self.operandoD = d;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+
+
+var Diferente = function(linea, columna, i, d)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.operandoI = i;
+    self.operandoD = d;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+
+var Igual = function(linea, columna, i, d)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.operandoI = i;
+    self.operandoD = d;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+
+var Menor = function(linea, columna, i, d)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.operandoI = i;
+    self.operandoD = d;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+
+var Mayor = function(linea, columna, i, d)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.operandoI = i;
+    self.operandoD = d;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+
+var Modulo = function(linea, columna, i, d)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.operandoI = i;
+    self.operandoD = d;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+
+var Potencia = function(linea, columna, i, d)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.operandoI = i;
+    self.operandoD = d;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+
+var Multiplicacion = function(linea, columna, i, d)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.operandoI = i;
+    self.operandoD = d;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+
+var Division = function(linea, columna, i, d)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.operandoI = i;
+    self.operandoD = d;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+var Resta = function(linea, columna, i, d)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.operandoI = i;
+    self.operandoD = d;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+var Suma = function(linea, columna, i, d)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.operandoI = i;
+    self.operandoD = d;
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+var ExpInt = function(linea, columna, v)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.valor = v;    
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+var Expdecimal = function(linea, columna, v)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.valor = v;    
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+var ExpString = function(linea, columna, v)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.valor = v;    
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+
+var ExpChar = function(linea, columna, v)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.valor = v;    
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}
+
+var ExpBoolean = function(linea, columna, v)
+{   
+    var self = this;
+    self.linea = linea;
+    self.columna = columna;
+    self.valor = v;    
+
+    self.generarCodigo = function(entorno)
+    {
+        /*generamos codigo*/
+    }    
+}

@@ -1,0 +1,300 @@
+var p = 0;
+var h = 0;
+var stack [];
+var heap [];
+t0 = p + 2;	// Posicion relativa de la variable mensaje
+t1 = h; 	//Posicion actual del h
+heap[h] = 72;	//H
+ h = h + 1;
+heap[h] = 111;	//o
+ h = h + 1;
+heap[h] = 108;	//l
+ h = h + 1;
+heap[h] = 97;	//a
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 109;	//m
+ h = h + 1;
+heap[h] = 117;	//u
+ h = h + 1;
+heap[h] = 110;	//n
+ h = h + 1;
+heap[h] = 100;	//d
+ h = h + 1;
+heap[h] = 111;	//o
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 49;	//1
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 50;	//2
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 51;	//3
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 52;	//4
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 53;	//5
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 64;	//@
+ h = h + 1;
+heap[h] = 64;	//@
+ h = h + 1;
+heap[h] = 64;	//@
+ h = h + 1;
+heap[h] = 64;	//@
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 115;	//s
+ h = h + 1;
+heap[h] = 1408491350;	// Fin de cadena
+ h = h + 1;
+stack[t0] = t1;	// Asignandole el valor a la variable mensaje
+t2 = p + 3;	// Posicion relativa de la variable a
+t3 = 666 + 10;
+t4 = t3 + 10;
+t5 = t4 + 66.66;
+stack[t2] = t5;	// Asignandole el valor a la variable a
+t6 = p + 4;	// Posicion relativa de la variable d
+t7 = 10 + 66.6666;
+stack[t6] = t7;	// Asignandole el valor a la variable d
+t8 = p + 5;	// Posicion relativa de la variable erick
+t9 = h; 	//Posicion actual del h
+heap[h] = 55;	//7
+ h = h + 1;
+heap[h] = 56;	//8
+ h = h + 1;
+heap[h] = 51;	//3
+ h = h + 1;
+heap[h] = 51;	//3
+ h = h + 1;
+heap[h] = 49;	//1
+ h = h + 1;
+heap[h] = 51;	//3
+ h = h + 1;
+heap[h] = 51;	//3
+ h = h + 1;
+heap[h] = 57;	//9
+ h = h + 1;
+heap[h] = 1408491350;	// Fin de cadena
+ h = h + 1;
+t10 = h; 	//Posicion actual del h
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 101;	//e
+ h = h + 1;
+heap[h] = 114;	//r
+ h = h + 1;
+heap[h] = 105;	//i
+ h = h + 1;
+heap[h] = 99;	//c
+ h = h + 1;
+heap[h] = 107;	//k
+ h = h + 1;
+heap[h] = 32;	// 
+ h = h + 1;
+heap[h] = 1408491350;	// Fin de cadena
+ h = h + 1;
+t12 = p + 6; // simulación de cambio de ambito
+t13 = t12 + 1; // Direccion paso parametro cadena 1
+stack[t13] = t9 ;// Pasando cadena 1
+t14 = t12 + 2; // Direccion paso parametro cadena 2
+stack[t14] = t10 ;// Pasando cadena 1
+p = p + 6; // Cambio real de ambito
+call concat ;
+p = p - 6; // Cambio real de ambito
+t15 = p + 6; // simulación de cambio de ambito
+t16 = t15 + 0; // Direccion return
+t17 = stack[t16];// valor nueva cadena
+heap[h] = 1408491350; // Fin cadena nueva
+h = h + 1; 
+stack[t8] = t17;	// Asignandole el valor a la variable erick
+t18 = p + 6;	// Posicion relativa de la variable nombre
+t19 = h; 	//Posicion actual del h
+heap[h] = 69;	//E
+ h = h + 1;
+heap[h] = 114;	//r
+ h = h + 1;
+heap[h] = 105;	//i
+ h = h + 1;
+heap[h] = 99;	//c
+ h = h + 1;
+heap[h] = 107;	//k
+ h = h + 1;
+heap[h] = 1408491350;	// Fin de cadena
+ h = h + 1;
+stack[t18] = t19;	// Asignandole el valor a la variable nombre
+t20 = p + 3; // Posicion local a
+t21 = stack[t20] ; // Valor de a
+t22 = p + 7; // Simulacion de cambio de ambito
+t23 = t22 + 0 ; // Posicion inicio de cadena
+stack[t23] = t21;// Paso por referencia del inicio de cadena
+t24 = t22 + 1 ; // Posicion flag modo impresion
+stack[t24] = 1 ;// Paso por referencia del inicio de cadena
+p = p + 7; // Cambio real de ambito
+call impresionNativa ;  // Llamando funcion
+p = p - 7; // Retomar ambito
+$$_clean_scope (t22 , 7 ) ;// Limpiando stack
+t25 = p + 2; // Posicion local mensaje
+t26 = stack[t25] ; // Valor de mensaje
+t27 = stack[t26] ; // Direccion en el heap
+t28 = p + 7; // Simulacion de cambio de ambito
+t29 = t28 + 0 ; // Posicion inicio de cadena
+stack[t29] = t26;// Paso por referencia del inicio de cadena
+t30 = t28 + 1 ; // Posicion flag modo impresion
+stack[t30] = 0 ;// Paso por referencia del inicio de cadena
+p = p + 7; // Cambio real de ambito
+call impresionNativa ;  // Llamando funcion
+p = p - 7; // Retomar ambito
+$$_clean_scope (t28 , 7 ) ;// Limpiando stack
+t31 = p + 4; // Posicion local d
+t32 = stack[t31] ; // Valor de d
+t33 = p + 7; // Simulacion de cambio de ambito
+t34 = t33 + 0 ; // Posicion inicio de cadena
+stack[t34] = t32;// Paso por referencia del inicio de cadena
+t35 = t33 + 1 ; // Posicion flag modo impresion
+stack[t35] = 2 ;// Paso por referencia del inicio de cadena
+p = p + 7; // Cambio real de ambito
+call impresionNativa ;  // Llamando funcion
+p = p - 7; // Retomar ambito
+$$_clean_scope (t33 , 7 ) ;// Limpiando stack
+t36 = p + 7;	// Posicion relativa de la variable flag
+stack[t36] = 1;	// Asignandole el valor a la variable flag
+t37 = p + 5; // Posicion local erick
+t38 = stack[t37] ; // Valor de erick
+t39 = stack[t38] ; // Direccion en el heap
+t40 = p + 8; // Simulacion de cambio de ambito
+t41 = t40 + 0 ; // Posicion inicio de cadena
+stack[t41] = t38;// Paso por referencia del inicio de cadena
+t42 = t40 + 1 ; // Posicion flag modo impresion
+stack[t42] = 0 ;// Paso por referencia del inicio de cadena
+p = p + 8; // Cambio real de ambito
+call impresionNativa ;  // Llamando funcion
+p = p - 8; // Retomar ambito
+$$_clean_scope (t40 , 8 ) ;// Limpiando stack
+proc impresionNativa begin
+t43= p  + 0 ;
+t44= stack[t43];
+t45= p + 1 ;
+t46= stack[t45];
+if (t46== 0 ) goto L0;// Imprimir en modo %c caracter
+goto L1;
+L1: 
+if (t46== 1) goto L2;// Imprimir en modo %e entero
+goto L3;
+L3: 
+if (t46== 2 ) goto L4;// Imprimir en modod %d decimal
+goto L5;// Error
+L0: 
+t47 = heap[t44]; 
+if ( t47 != 1408491350 ) goto L6;
+goto L7;
+L6: 
+print( "%c" ,t47 ); 
+t44 = t44+ 1; 
+goto L0;
+L2: 
+print( "%e" , t44 ); 
+goto L7;
+L4: 
+print( "%d" , t44 ); 
+goto L8;
+L5:L6:L7:L8:
+t48= 10 ;
+print( "%c" , t48 ); 
+end
+//metodo 3D que concatena 2 cadenas
+proc concat begin 
+t49=p+1; //cadena1
+t50=stack[t49]; //puntero al heap
+t51=h; //nueva cadena
+L9:
+t52=heap[t50]; //extrayendo caracter
+if(t52!=1408491350) goto L10;
+goto L11;
+L10:
+heap[h]=t52; //almacenando caracter
+h=h+1;
+t50=t50+1;
+goto L9;
+L11:
+t53=p+2; //cadena2
+t54=stack[t53]; //puntero al heap
+L12:
+t55=heap[t54]; //extrayendo caracter
+if(t55!=1408491350) goto L13;
+goto L14;
+L13:
+heap[h]=t55; //almacenando caracter
+h=h+1;
+t54=t54+1;
+goto L12;
+L14:
+heap[h]=0;
+h=h+1;
+t56=p+0; //return del metodo
+stack[t56]=t51;
+end

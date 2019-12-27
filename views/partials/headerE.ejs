@@ -1,0 +1,73 @@
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+        <!--
+		<div class="navbar-header">
+			<button class="btn-primary" onclick="compilar()">Compilar</button>
+			<button class="btn-primary" onclick="debugear()">Debuguear</button>
+			<button class="btn-primary" href="/">Contiunar</button>
+			<button class="btn-primary" onclick="siguientePunto()">Siguiente</button>
+			<button class="btn-primary" href="/">Saltar</button>
+			<button class="btn-primary" href="/">Automatico</button>
+			<button class="btn-primary" href="/">Exportar</button>
+		</div> -->
+		<div class="container">			  
+            <div class="row">
+              <div class="col-sm">
+                  <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Opciones de Archivo
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <button class="btn-primary" onclick="compilar()">Compilar</button>
+                                <button class="btn-primary" onclick="guardarArchivo()">Guardar</button>
+                            <div class="custom-file">            
+                                    <input type ="file" id = "archivo" name= "archivo" class = "custom-file-input">            
+                                    <label class="custom-file-label" for="inputGroupFile01">Abrir Archivo</label>
+                            </div> 							
+                            <button class="btn-primary" onclick="guardarArchivo()">Guardar</button>
+                            <a class="dropdown-item" href="#">Crear</a>
+                            <a class="dropdown-item" href="#">Guardar</a>                           
+                          </div>                        
+                  </div>	
+              </div>
+              <div class="col-sm">
+                  <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Opciones de Compilación
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							  <a class="dropdown-item" href="#">Compilar</a>
+							  <button class="btn-primary" onclick="compilar()">Compilar</button>
+                          </div>
+                  </div>	
+              </div>	
+              <div class="col-sm">
+                  <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Opciones de Código 3D
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Compilar</a>
+                            <button class="btn-primary" onclick="compilar3d()">Compilar</button>
+                        </div>
+                  </div>	
+              </div>	
+              <div class="col-sm">
+                  <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Reportes
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item" href="#">Reporte de errores</a>
+                              <a class="dropdown-item" href="#">Reporte Tabla de simbolos</a>
+                              <a class="dropdown-item" href="#">Reporte Gráfica AST</a>
+                          </div>
+                  </div>	
+              </div>							
+            </div>
+		<ul class="nav navbar-nav">
+			<li><a href="/">Inicio</a></li>
+		</ul>
+	  
+	</div>
+</nav>

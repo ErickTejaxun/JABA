@@ -1,0 +1,84 @@
+importar ("/ruta/archivo_importado.gcc"); 
+importar('C:\ gcc \estructura_s\estructuras\nodo.gcc');
+
+clase miClase{
+	
+  	privado entero var1;
+  	privado entero var1, var2;
+  	privado entero var1 = 100;
+  	privado entero var1,var2 = 100;
+  	
+  	privado ente var1;
+  	privado ente var1, var2;
+  	privado ente var1 = 100;
+  	privado ente var1,var2 = 100;
+  
+  	entero var1;
+  	entero var1, var2;
+  	entero var1 = 100;
+  	entero var1,var2 = 100;
+  	
+  	ente var1;
+  	ente var1, var2;
+  	ente var1 = 100;
+  	ente var1,var2 = 100;  
+  
+  
+  
+  
+  	privado entero var1[1];
+  	privado entero var1, var2[1];
+  	privado entero var1[1] = 100;
+  	privado entero var1,var2[1] = 100;
+  	
+  	privado ente var1[1];
+  	privado ente var1, var2[1];
+  	privado ente var1[1] = 100;
+  	privado ente var1,var2[1] = 100;
+  
+  	entero var1[1];
+  	entero var1, var2[1];
+  	entero var1[1] = 100;
+  	entero var1,var2[1] = 100;
+  	
+  	ente var1[1];
+  	ente var1, var2[1];
+  	ente var1[1] = 100;
+  	ente var1,var2[1] = 100;   
+  
+  
+  
+  	
+  	
+    Principal()
+    {     
+
+
+
+
+
+    } 
+
+    vacio actualizarSaldo(nodo list, Caracter nombre, decimal saldo)
+    {
+
+        Evaluar_si (var)
+        { 
+            Es_igual_a 1: 
+                //instrucciones 
+                    romper; 
+            Es_igual_a 'a': 
+                //instrucciones 
+                romper; 
+            Es_igual_a "casa":
+                //instrucciones 
+                romper; 
+            defecto: 
+                imprimir("putas");
+                //instrucciones 
+        }
+    }
+
+
+
+} 

@@ -1,0 +1,15 @@
+clase nodoB
+{
+    entero id_noticia; // ID de la noticia. Valor para balance.
+    caracter titulo[30]; // Titulo de la noticia
+    caracter cuerpo[300]; // Cuerpo de la noticia.
+    entero like;    // Número de likes de la noticia.
+
+    nodoB(entero id_noticia, caracter titulo[30], caracter cuerpo[30], entero like)
+    {
+        este.id_noticia = id_noticia;
+        este.titulo = titulo;
+        este.cuerpo = cuerpo;
+        este.like = like;
+    }
+}

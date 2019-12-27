@@ -1,0 +1,7 @@
+    importar("/nodoB.gcc");
+    clase pagina
+    {
+        nodoB noticias [5];
+        pagina ramas [5];
+        entero cuenta;
+    };

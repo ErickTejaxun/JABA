@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include ../partials/head %>
+</head>
+	<body>
+		<header>
+			<% include ../partials/header %>
+		</header>
+        <div class="text-center bg-danger text-white ">
+            <h1>GCC Compiler</h1>
+            <p>Participar en Lección</p> 
+        </div> 
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+                <div class="container-fluid">
+                    <form method="post" action="/compilarEjemplo">
+                      <div class="form-group">     
+                        <label type="col-sm">Título</label>                   
+                        <label type="col-sm" id =  "tituloLeccion"><%= leccion.titulo %></label>
+                        <input type="hidden" id =  "path" name = "path" value = "<%= leccion.titulo %>" >
+                      </div>
+                      <div class="form-group">  
+                      <label type="col-sm">Explicación</label>                            
+                        <p class="form-control"><%= leccion.explicacion %></p>
+                      </div>       
+                      <div class="form-group">   
+                        <label type="col-sm">Código de Ejemplo</label>                           
+                        <textarea class="form-control" id="codigoEjemplo" name= "codigoEjemplo" rows="8"><%= leccion.codigoejemplo %></textarea>
+                      </div>  
+                      <div class="form-group">                                                
+                        <button type="submit" class="btn btn-primary" id="botonEjemplo">
+                          Compilar Ejemplo
+                        </button>
+                      </div>                        
+                      <div class="form-group">  
+                        <label type="col-sm">Enunciado de Tarea</label>                            
+                        <p class="form-control"><%= leccion.enunciadotarea %></p>
+                      </div>   
+                      <div class="form-group">    
+                        <label type="col-sm">Resolución de la tarea</label>                          
+                        <div>
+                            <textarea  id="code" name = "code"></textarea>
+                        </div>
+                      </div> 
+                      <div class="form-group">                                                
+                        <button type="button" class="btn btn-primary ">
+                          Finalizar tarea
+                        </button>
+                      </div>                                               
+                    </form>           
+                </div>              
+            </div>                                        
+          </div>
+        </div>  
+                
+    </body>
+    <script>              
+        var cEditor = CodeMirror.fromTextArea(document.getElementById("code"), {
+          lineNumbers: true,
+          matchBrackets: true,
+          mode: "text/x-csrc"
+        });  
+        var cEditor = CodeMirror.fromTextArea(document.getElementById("codigoEjemplo"), {
+          lineNumbers: true,
+          matchBrackets: true,
+          mode: "text/x-csrc"          
+        });             
+        function busqueda() {
+            var input, filtro, ul, li, a, i;
+            input = document.getElementById("entrada");
+            filtro = input.value.toUpperCase();
+            ul = document.getElementById("listaLecciones");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                if (a.innerHTML.toUpperCase().indexOf(filtro) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";        
+                }
+            }
+        }
+
+        function filtro(tipo)
+        {
+	        	//alert(tipo);
+	            var input, filtro, ul, li, a, i;
+	            input = document.getElementById("entrada");
+	            filtro = tipo.toUpperCase();           
+	            ul = document.getElementById("listaLecciones");
+	            li = ul.getElementsByTagName("li");
+	            for (i = 0; i < li.length; i++) {
+	                a = li[i].getElementsByTagName("a")[0];
+	                if (a.innerHTML.toUpperCase().indexOf(filtro) > -1) {
+	                    li[i].style.display = "";
+	                } else {
+	                    li[i].style.display = "none";        
+	                }
+	            }
+        }
+
+        function compilarEjemplo()
+        {
+          var titulo = document.getElementById("tituloLeccion").value;
+          var codigo = document.getElementById("codigoEjemplo").value;          
+          $.post("/compilarEjemplo",
+          {
+            path: titulo,
+            codigo: codigo
+          },
+          function(data,status)
+          {
+            alert("Data: " + data + "\nStatus: " + status);
+          });
+        }
+
+        $(document).ready(function(){
+            $("botonEjemplo").click(function(){
+                var titulo = document.getElementById("tituloLeccion").value;
+                var codigo = document.getElementById("codigoEjemplo").value;          
+                $.post("/compilarEjemplo",
+                {
+                  path: titulo,
+                  codigo: codigo
+                },
+                function(data,status){
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+            });
+        });
+
+
+    </script>  
+</html>

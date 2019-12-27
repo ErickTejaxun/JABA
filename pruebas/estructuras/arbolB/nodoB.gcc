@@ -1,0 +1,14 @@
+    clase nodoB
+    {
+        entero id_noticia;
+        caracter  titulo[100];
+        caracter  cuerpo[100];
+        entero like;
+        nodoB(entero id_noticia,caracter [100] titulo,caracter [100] cuerpo,entero like)
+        {
+            este->id_noticia=id_noticia;
+            este->titulo=titulo;
+            este->cuerpo=cuerpo;
+            este->like=like;
+        }
+    };

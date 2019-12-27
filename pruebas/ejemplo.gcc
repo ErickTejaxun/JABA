@@ -1,0 +1,38 @@
+importar ("/ruta/archivo_importado.gcc"); 
+importar('C:\ gcc \estructura_s\estructuras\nodo.gcc');
+
+clase miClase{
+
+
+    Principal()
+    {     
+
+
+
+
+
+    } 
+
+    vacio actualizarSaldo(nodo list, Caracter nombre, decimal saldo)
+    {
+
+        Evaluar_si (var)
+        { 
+            Es_igual_a 1: 
+                //instrucciones 
+                    romper; 
+            Es_igual_a 'a': 
+                //instrucciones 
+                romper; 
+            Es_igual_a "casa":
+                //instrucciones 
+                romper; 
+            defecto: 
+                imprimir("putas");
+                //instrucciones 
+        }
+    }
+
+
+
+} 

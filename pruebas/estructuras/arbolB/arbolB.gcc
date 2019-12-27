@@ -1,0 +1,411 @@
+clase arbolB{
+    //pagina *raiz;
+    crearPuntero(pagina, raiz);
+    arbolB()
+    {
+        raiz=nada;
+    }
+
+    entero nodoLLeno(pagina *actual)
+    {
+        si(actual==nada)
+        si_verdadero
+        {
+            retorno 0;
+        }
+        si_falso
+        {
+            si(actual->cuenta==4)
+            si_verdadero
+            {
+                retorno 1;
+            }            
+            si_falso{
+                retorno 0;
+            }
+            fin-si            
+        }
+        fin-si
+    }   
+
+    entero buscarNodo(pagina puntero actual,entero id_noticia, entero k)
+    {
+
+            si(id_noticia<actual->noticias[1]->id_noticia)
+            si_verdero
+            {
+                k=0;
+                retorno 0;
+            }
+            si_falso
+            {
+                k=0;
+                Repetir_contando(variable i=1;i<=actual->cuenta;i++)
+                {
+
+                    si(actual->noticias[i]->id_noticia==id_noticia){
+                        *k+=1;
+                        retorno 1;
+                    }
+                    *k+=1;
+                }
+
+                retorno 0;
+            }
+        }
+
+    pagina *buscar(pagina*actual,entero id_noticia,entero* indice){
+            si(actual==nada){
+                retorno nada;
+            }
+            si_falso{
+                entero esta;
+                esta = buscarNodo(actual,id_noticia,indice);
+                si(esta)
+                    retorno actual;
+                si_falso
+                    retorno buscar(actual->ramas[*indice],id_noticia,indice);
+            }
+        }
+
+
+
+        vacio meterHoja(pagina*actual,nodoB *noticia,pagina*rd,entero k){
+            entero i;
+            Repetir_contando(i=actual->cuenta;i>=k+1;i--){
+                actual->noticias[i+1]=actual->noticias[i];
+                actual->ramas[i+1]=actual->ramas[i];
+            }
+            actual->noticias[k+1]=noticia;
+            actual->ramas[i+1]=rd;
+            actual->cuenta++;
+        }
+
+        vacio dividirNodo(pagina* actual,nodoB *noticia,pagina* rd,entero k, nodoB **mediana,pagina** nuevo){
+            entero i,posMdna;
+            posMdna = (k<=5/2)? 5/2: 5/2+1;
+            (*nuevo)=(pagina*) malloc(sizeof(pagina));
+            Repetir_contando (i=posMdna+1; i<5;i++){
+                (*nuevo)->noticias[i-posMdna]=actual->noticias[i];
+                (*nuevo)->ramas[i-posMdna]=actual->ramas[i];
+            }
+            (*nuevo)->cuenta=(4)-posMdna;
+            actual->cuenta=posMdna;
+
+            si(k<=3){
+                meterHoja(actual,noticia,rd,k);
+
+            }
+            si_falso
+                meterHoja(*nuevo,noticia,rd,k-posMdna);
+
+             *mediana=actual->noticias[3];
+            (*nuevo)->ramas[0]=actual->ramas[actual->cuenta];
+            actual->cuenta--;
+
+        }
+
+
+        vacio empujar(pagina *actual,nodoB *noticia,entero *subeArriba,nodoB **mediana,pagina**nuevo){
+            entero k;
+            si(actual==nada){
+                *subeArriba=1;
+                *mediana=noticia;
+                *nuevo=nada;
+            }
+            si_falso{
+                entero esta;
+                esta=buscarNodo(actual,noticia->id_noticia,&k);
+
+                si(esta){
+                    *subeArriba=0;
+                    qDebug()<<"Ya existe";
+                    retorno;
+                }
+
+                empujar(actual->ramas[k],noticia,subeArriba,mediana,nuevo);
+                si(*subeArriba){
+
+                    qDebug()<<nodoLLeno(actual);
+                  si(nodoLLeno(actual)){
+
+                      dividirNodo(actual,noticia,*nuevo,k,mediana,nuevo);
+
+                  }
+                  si_falso{
+
+                      *subeArriba=0;
+                      meterHoja(actual,*mediana,*nuevo,k);
+                        ordenar(actual);
+
+                  }
+
+                }
+            }
+        }
+
+
+
+        vacio ordenar(pagina *actual){
+            entero cont =0;
+            while(cont!=3){
+            Repetir_contando(entero i=1;i<=actual->cuenta+1;i++){
+                si(i+1<=actual->cuenta){
+                si(actual->noticias[i]->id_noticia>actual->noticias[i+1]->id_noticia){
+                    nodoB *aux = actual->noticias[i];
+                    actual->noticias[i]=actual->noticias[i+1];
+                    actual->noticias[i+1]=aux;
+
+                }
+                }
+            }
+            cont+=1;
+            }
+        }
+
+        vacio insertar(pagina**raiz,nodoB *noticia){
+            entero subeArriba;
+            nodoB *mediana;
+            pagina *p,*nd;
+            empujar(*raiz,noticia,&subeArriba,&mediana,&nd);
+            si(subeArriba){
+                qDebug()<<"subio una hoja";
+                qDebug()<<mediana->id_noticia;
+                p=(pagina*) malloc(sizeof(pagina));
+                p->cuenta=1;
+                p->noticias[1]=mediana;
+                p->ramas[0]=*raiz;
+                p->ramas[1]=nd;
+                *raiz=p;
+            }
+        }
+
+
+
+
+        vacio combina(pagina* actual, entero k){
+
+            entero j;
+            pagina *nodoIzqdo, *q;
+
+
+            q = actual->ramas[k];
+            nodoIzqdo = actual->ramas[k-1];
+
+            nodoIzqdo->cuenta++;
+            nodoIzqdo->noticias[nodoIzqdo->cuenta] = actual->noticias[k];
+            nodoIzqdo->ramas[nodoIzqdo->cuenta] = q->ramas[0];
+
+            Repetir_contando(j = 1; j <= q->cuenta; j++)
+            {
+                nodoIzqdo->cuenta++;
+                nodoIzqdo->noticias[nodoIzqdo->cuenta] = q->noticias[j];
+                nodoIzqdo->ramas[nodoIzqdo->cuenta] = q->ramas[j];
+            }
+
+            Repetir_contando(j = k; j <= actual->cuenta-1;j++){
+
+                actual->noticias[j] = actual->noticias[j+1];
+                actual->ramas[j] = actual->ramas[j+1];
+
+            }
+            actual->cuenta--;
+            free(q);
+
+        }
+
+
+        vacio mover_derecha(pagina* actual, entero k){
+
+            entero j;
+            pagina* nodoProblema = actual->ramas[k];
+            pagina* nodoIzqdo = actual->ramas[k-1];
+
+            Repetir_contando(j = nodoProblema->cuenta; j >= 1; j--){
+
+                nodoProblema->noticias[j+1] = nodoProblema->noticias[j];
+                nodoProblema->ramas[j+1] = nodoProblema->ramas[j];
+            }
+
+            nodoProblema->cuenta++;
+            nodoProblema->ramas[1] = nodoProblema->ramas[0];
+
+            nodoProblema->noticias[1] = actual->noticias[k];
+
+
+            actual->noticias[k] = nodoIzqdo->noticias[nodoIzqdo->cuenta];
+            nodoProblema->ramas[0] = nodoIzqdo->ramas[nodoIzqdo->cuenta];
+            nodoIzqdo->cuenta--;
+        }
+
+
+        vacio moverIzqda(pagina* actual, entero k ){
+
+            entero j;
+
+            pagina* nodoProblema = actual->ramas[k-1];
+            pagina* nodoDrcho = actual->ramas[k];
+
+            nodoProblema->cuenta++;
+            nodoProblema->noticias[nodoProblema->cuenta] = actual->noticias[k];
+            nodoProblema->ramas[nodoProblema->cuenta] = nodoDrcho->ramas[0];
+
+            actual->noticias[k] = nodoDrcho->noticias[1];
+            nodoDrcho->ramas[1] = nodoDrcho->ramas[0];
+            nodoDrcho->cuenta--;
+
+            Repetir_contando(j = 1; j <= nodoDrcho->cuenta; j++){
+
+                nodoDrcho->noticias[j] = nodoDrcho->noticias[j+1];
+                nodoDrcho->ramas[j] = nodoDrcho->ramas[j+1];
+
+            }
+
+        }
+
+
+        vacio restablecer(pagina* actual, entero k){
+
+            si(k > 0)
+
+                si(actual->ramas[k-1]->cuenta > 5/2)
+                 mover_derecha(actual,k);
+
+                si_falso
+                  combina(actual,k);
+            si_falso
+
+              si(actual->ramas[1]->cuenta > 5/2)
+                moverIzqda(actual, 1);
+              si_falso
+                combina(actual,1);
+        }
+
+
+        vacio quitar(pagina* actual, entero k){
+
+            entero j;
+
+            Repetir_contando(j = k+1; j <= actual->cuenta; j++){
+
+                actual->noticias[j-1] = actual->noticias[j];
+                actual -> ramas[j-1] = actual->ramas[j];
+
+            }
+            actual->cuenta--;
+
+        }
+
+
+        vacio sucesor(pagina* actual, entero k){
+
+            pagina* q;
+
+            q = actual->ramas[k];
+            while(q->ramas[0] != nada)
+            q = q->ramas[0];
+
+         actual->noticias[k] = q->noticias[1];
+
+        }
+
+
+        vacio eliminarRegistro(pagina* actual, nodoB * cl, entero* encontrado){
+
+
+           entero k;
+
+           si(actual != nada)
+            {
+
+               *encontrado = buscarNodo(actual,cl->id_noticia, &k);
+               si(*encontrado)
+               {
+                   si(actual->ramas[k-1] != nada){
+
+                       sucesor(actual,k);
+
+                       eliminarRegistro(actual->ramas[k],actual->noticias[k],
+                                                                  encontrado);
+                   }
+                   si_falso{
+                       quitar(actual,k);
+                   }
+               }si_falso{
+                   eliminarRegistro(actual->ramas[k],cl,encontrado);
+               }
+
+
+               si(actual->ramas[k] != nada)
+                  si(actual->ramas[k]->cuenta < 5/2)
+                  restablecer(actual,k);
+           }
+
+           si_falso
+               encontrado =0;
+
+        }
+
+
+        bool eliminar(pagina** raiz, nodoB * cl){
+
+
+            entero encontrado;
+
+            eliminarRegistro(*raiz,cl,&encontrado);
+
+
+            si(encontrado)
+            {
+
+               cout << "Eliminamos la clave "<< cl->id_noticia<<endl;
+
+               si((*raiz)->cuenta == 0)
+               {
+
+                  pagina* p = *raiz;
+                  *raiz = (*raiz) ->ramas[0];
+                  free(p);
+               }
+               retorno true;
+
+            }
+
+            si_falso
+                cout << "No esta esa clave"<<endl;
+                retorno false;
+        }
+
+
+
+
+
+        bool modsiicar(pagina** actual, entero id, entero* encontrado,caracter [100] titulo,caracter [100] desc){
+
+            pagina *aux =buscar(*actual,id,encontrado);
+            si(aux!=nada){
+             aux->noticias[*encontrado]->titulo=titulo;
+             aux->noticias[*encontrado]->cuerpo=desc;
+             retorno true;
+            }
+            si_falso{
+                retorno false;
+            }
+
+        }
+
+
+        caracter [100] goNot(pagina** actual, entero id, entero* encontrado){
+
+            pagina *aux =buscar(*actual,id,encontrado);
+            si(aux!=nada){
+
+             retorno aux->noticias[*encontrado]->cuerpo;
+            }
+            si_falso{
+             retorno "";
+            }
+
+        }
+
+};

@@ -1,0 +1,56 @@
+begin, , , Init
+=, 0, , H // Inicializo el puntero del heap H=0
+=, 0, , P // Inicializo el puntero del stack P=0
+=, H, , t0 // Guardo la posicion inicial del Heap t0=H
++, H, 9, H // Reservo el espacio que ocupa la clase con el metodo principal H=H+9
+<=, 0, t0, Stack //  Stack[0]=t0
+call, , , miClase_init //Llamo al constructor de la clase
+call, , , principal
+end, , , Init
+
+begin, , , miClase_init
++, P, 1, t1 //  t1=P+1
+=>, t1, t2, Stack //  t2=Stack[t1]
++, t2, 0, t3 // Posicion de la variable atributo1 t3=t2+0
+<=, t3, -281216, Heap //  Heap[t3]=-281216
+
++, P, 1, t4 //  t4=P+1
+=>, t4, t5, Stack //  t5=Stack[t4]
++, t5, 1, t6 // Posicion de la variable num t6=t5+1
+// ERROR
++, P, 1, t9 //  t9=P+1
+=>, t9, t10, Stack //  t10=Stack[t9]
++, t10, 2, t11 // Posicion de la variable num1 t11=t10+2
++, 2, 3, t12 //  t12=2+3
+<=, t11, t12, Heap //  Heap[t11]=t12
+end, , ,miClase_init
+
+begin, , , miClase
++, P, 1, t13 //  t13=P+1
+=>, t13, t14, Stack //  t14=Stack[t13]
++, P, \0, t15 // Guardo la posicion de la variable num1 t15=P+2
+=>, t15, t16, Heap //  t16=Heap[t15]
+jl, 5, t16, L0 // // Etiqueta verdadera if(5<t16) goto L0
+jmp, , , L1 // //Etiqueta falsa goto L1
+L0:
+L1:
+end, , , miClase
+
+begin, , , Principal
++, P, 1, t17 //  t17=P+1
+=>, t17, t18, Stack //  t18=Stack[t17]
++, P, 2, t19 // Guardo la posicion de la variable num1 t19=P+2
+=>, t19, t20, Heap //  t20=Heap[t19]
+jg, t20, 100, L2 // // Etiqueta verdadera if(t20>100) goto L2
+jmp, , , L3 // //Etiqueta falsa goto L3
++, P, 1, t21 //  t21=P+1
+=>, t21, t22, Stack //  t22=Stack[t21]
++, P, 2, t23 // Guardo la posicion de la variable num1 t23=P+2
+=>, t23, t24, Heap //  t24=Heap[t23]
+jl, t24, 0, L4 // // Etiqueta verdadera if(t24<0) goto L4
+jmp, , , L5 // //Etiqueta falsa goto L5
+L3:
+L2,L4:
+L5:
+end, , , Principal
+

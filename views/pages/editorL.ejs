@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include ../partials/head %>
+</head>
+	<body  >
+        <div class="text-center bg-danger text-white ">
+            <h1>GCC Compiler</h1>
+            <p>Participar en Lección</p> 
+        </div> 
+		<header>
+            <% include ../partials/headerE %>
+        </header>                
+        <div class="custom-file">            
+            <input type ="file" id = "archivo" name= "archivo" class = "custom-file-input">            
+            <label class="custom-file-label" for="inputGroupFile01">Abrir Archivo</label>
+        </div>      
+
+        
+        <select id="breakpoints" >
+        </select>                 
+        
+
+        <!--<button class="btn btn-danger" onclick="nuevo()">+</button>-->
+        <p id = "leccionI" name = "leccionI" hidden><%= leccion.path %></p>
+        <textarea id = "codigoI" name = "codigoI" hidden><%= leccion.codigo %></textarea>
+        <nav id="archivos">
+            <div class="nav nav-pills mb-3" id="nav-tab" role="tablist">
+            </div>
+        </nav>
+        <div class="tab-content" id="tab-content"  >                                
+        </div>
+    </body>
+    
+<script id="modecode">
+
+    CodeMirror.defineSimpleMode("gccStyle", {
+        // The start state contains the rules that are intially used
+        start: [
+        // The regex matches the token, the token property contains the type
+        {regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string"},
+        {regex: /'(?:[^\\]|\\.)*?(?:'|$)/, token: "string"},        
+        // You can match multiple tokens at once. Note that the captured
+        // groups must span the whole string in this case
+        {regex: /(function)(\s+)([a-z$][\w$]*)/,
+        token: ["keyword", null, "variable-2"]},
+        // Rules are matched in the order in which they appear, so there is
+        // no ambiguity between this one and the one above
+        {regex: /(?:funcion|verdadero|falso|decimal|entero|cadena|caracter|booleano|vacio|si|si_verdadero|si_falso|imprimir|concatenar|convertiracadena|convertiraentero|clase|este|publico|privado|protegido|hereda_de|importar|puntero|@sobreescribir|retorno|principal|nuevo|romper|continuar|estructura|crearPuntero|obtenerdireccion|reservarmemoria|consultartamanio|nada|destruirpuntero|lista|insertar|obtener|buscar|pila|apilar|desapilar|cola|encolar|desencolar|fin-si|evaluar_si|es_igual_a|repetir_mientras|hacer|mientras|ciclo_doble_condicion|repetir|hasta_que|defecto|repetir_contando|desde|hasta|enciclar|contador|leer_teclado)\b/i,
+        token: "reservadas"},
+        {regex: /true|false|null|undefined/, token: "atom"},
+        {regex: /0x[a-f\d]+|[-+]?(?:\.\d+|\d+\.?\d*)(?:e[-+]?\d+)?/i,
+        token: "number"},
+        {regex: /\/\/.*/, token: "comment"},
+        {regex: /\/(?:[^\\]|\\.)*?\//, token: "variable-3"},
+        // A next property will cause the mode to move to a different state
+        {regex: /\/\*/, token: "comment", next: "comment"},
+        {regex: /[-+\/*=<>!]+/, token: "operator"},
+        // indent and dedent properties guide autoindentation
+        {regex: /[\{\[\(]/, indent: true},
+        {regex: /[\}\]\)]/, dedent: true},
+        {regex: /[a-z$][\w$]*/, token: "variable"},
+        // You can embed other modes with the mode property. This rule
+        // causes all code between << and >> to be highlighted with the XML
+        // mode.
+        {regex: /<</, token: "meta", mode: {spec: "xml", end: />>/}}
+        ],
+        // The multi-line comment state.
+        comment: [
+        {regex: /.*?\*\//, token: "comment", next: "start"},
+        {regex: /.*/, token: "comment"}
+        ],
+        // The meta property contains global information about the mode. It
+        // can contain properties like lineComment, which are supported by
+        // all modes, and also directives like dontIndentStates, which are
+        // specific to simple modes.
+        meta: {
+        dontIndentStates: ["comment"],
+        lineComment: "//"
+        }
+    });
+    
+</script>    
+    <script>
+
+        /*Agregamos el evento para preparar*/
+        document.getElementById('archivo')
+            .addEventListener('change', abrir, false);    
+
+
+        /*Agregar evento al input file*/
+        document.getElementById('archivo')
+            .addEventListener('change', abrirArchivo, false);        
+
+
+        /*Lista de editores.*/
+
+        var editores = {};
+        var debugers = {};
+        var consolas = {};
+        var tablas = {};
+        var stacks = {};
+        var heaps = {};
+
+        nuevo("Nuevo\\Nuevo.gcc") //Inicial;
+
+        function abrir()
+        {
+            var path = document.getElementById('archivo').value;   
+            nuevo(path);
+        }
+
+        function nuevo(path) 
+        {   
+
+            //var path = document.getElementById('archivo').value;             
+            var partes = path.split("\\");
+            //alert(partes.length);
+            var sub = partes[partes.length-1];
+            var subP = sub.split(".");
+            var id = subP[0];
+            var nav = document.getElementById('nav-tab'); 
+            //alert(list.className);              
+            var titulo = document.createElement('a');
+            titulo.className = "nav-item nav-link";
+            titulo.id = "nav-"+sub+"-tab";
+            titulo.setAttribute("data-toggle","tab");
+            titulo.setAttribute("href" , "#nav-" +sub );
+            titulo.setAttribute("role","tab");
+            titulo.setAttribute("aria-controls","nav-"+id);
+            titulo.setAttribute("aria-selected","true"); 
+            var textnode = document.createTextNode(sub);
+            titulo.appendChild(textnode);          
+            nav.appendChild(titulo);                               
+            // Ahora agregamos area de disposición                         
+            var contenedorPaginas = document.getElementById('tab-content');  // Tabla contenedora de archivos.
+            /*Pestaña contenedor de los elementos del archivo.*/
+            var contEdicion = document.createElement('div');
+            contEdicion.className = "tab-pane fade";
+            contEdicion.id = 'nav-'+sub;
+            contEdicion.setAttribute("role","tabpanel");
+            contEdicion.setAttribute("aria-labelledby", "nav-"+sub+"-tab");
+            contEdicion.setAttribute("aria-controls","nav-"+sub); 
+            contEdicion.setAttribute("aria-selected","false");
+            /*Contenedor de area de edicion, debuger y reportes.*/
+            var contenedor = document.createElement('div');
+            contenedor.className = "container";
+            /*Primera fila de la tabla.*/
+            var filaTitulos = document.createElement('div');
+            filaTitulos.className = "row";
+            /*Titulo editor*/
+            var colTituloEditor = document.createElement('div');
+            colTituloEditor.className = "col-6";
+            var tituloEditor = document.createElement('h2');
+            tituloEditor.className = "display-3";        
+            tituloEditor.appendChild(document.createTextNode('Editor'));
+            
+            /*Titulo Debugger*/
+            var colTituloDeb = document.createElement('div');
+            colTituloDeb.className = "col-6";
+            var tituloDebo = document.createElement('h2');
+            tituloDebo.className = "display-3";        
+            tituloDebo.appendChild(document.createTextNode('Debugger'));            
+
+            /*Agregamos primer fila a la pestaña-*/            
+            colTituloEditor.appendChild(tituloEditor);
+            colTituloDeb.appendChild(tituloDebo);
+            filaTitulos.appendChild(colTituloEditor);
+            filaTitulos.appendChild(colTituloDeb);
+            contenedor.appendChild(filaTitulos);
+
+            /*Segunda fila de la tabla*/
+            var filaEditores = document.createElement('div');
+            filaEditores.className = "row";
+            /*Primer columna Editor*/
+            var columnaEditor = document.createElement('div');
+            columnaEditor.className = "col-6";            
+            /*Segunda columna Debugger*/
+            var columnaDeb = document.createElement('div');
+            columnaDeb.className = "col-6";                
+            var contenedorEditor = document.createElement('div');
+            /*Editor de texto */
+            var editor = document.createElement('TEXTAREA');
+            editor.id = sub ;
+           
+            editor.setAttribute("rows","8");
+            editor.value =sub;                                      
+            /*Editor de debugger*/
+            var editorD = document.createElement('TEXTAREA');
+            editorD.id = sub+"D" ;
+            editorD.setAttribute("rows","8");
+            //editorD.value =sub+"Debugger";            
+           
+            /*Titulo área de edicion*/
+            var tituloE = document.createElement('h2');
+            tituloE.className = "display-4";
+            var t1 = document.createTextNode("Editor");
+            tituloE.appendChild(t1);
+
+            /*Titulo área de debugger*/
+            var tituloD = document.createElement('h2');
+            tituloD.className = "display-4";
+            var t2 = document.createTextNode("Debugger");
+            tituloE.appendChild(t2);
+
+            //columnaEditor.appendChild(titulE);
+            columnaEditor.appendChild(editor);
+
+            //columnaDeb.append(tituloD);
+            columnaDeb.append(editorD);
+
+
+            /*Fila de Salida consola----------------------------------------------------------------------*/
+            var filaSalida = document.createElement('div');
+            filaSalida.className = 'row';
+
+            var colConsola = document.createElement('div');
+            colConsola.className = "col-10";
+            
+            filaSalida.appendChild(colConsola);
+            
+            /*Tab pannel contenedor*/
+            var tabPannel = document.createElement('nav');
+            tabPannel.id = "Tab" + sub;
+
+            /*Navegador del tab*/
+            var navTab = document.createElement('div');
+            navTab.className = "nav nav-tabs";
+            navTab.id = "nav-tab-" + sub;
+            navTab.setAttribute("role","tablist");
+
+            /*Pestaña de tab*/
+            var contenedorSalida = document.createElement('div');
+            contenedorSalida.className = "tab-content";
+            contenedorSalida.id = "tab-content";
+
+
+            /*-----------------Salida-----------------------------------*/ 
+            /*Titulos de las pestañas*/
+            /*Consola*/
+            var consolaTab = document.createElement('a');
+            consolaTab.className = "nav-item nav-link";
+            consolaTab.id = "nav-consola-" + sub +"tab";
+            consolaTab.setAttribute("data-toggle","tab");
+            consolaTab.setAttribute("href","#nav-" +sub+"Salida");
+            consolaTab.setAttribute("aria-controls","navSalida"+sub);
+            consolaTab.setAttribute("aria-selected","false");
+            consolaTab.appendChild(document.createTextNode('Salida'));
+
+            /*Contenedor salida*/
+            var contSalida = document.createElement('div');
+            contSalida.className = "tab-pane fade";
+            contSalida.id ="nav-" +sub+"Salida" //"navCont-"+sub;
+            contSalida.setAttribute("role","tabpanel");
+            contSalida.setAttribute("aria-labelledby","nav-"+sub+"tabSalida");
+            
+            /*Area de texto..*/            
+            var areaSalida = document.createElement('TEXTAREA');
+            areaSalida.id = sub + "Salida" ;
+            areaSalida.setAttribute("rows","8");
+            //areaSalida.value = "Consola de salida";    
+            contSalida.appendChild(areaSalida);
+            
+            navTab.append(consolaTab);//Titulo Consola de salida
+            contenedorSalida.appendChild(contSalida); // Contenedor consola de salida
+
+            /*-----------------------Tablas de símbolos-----------------------------*/ 
+            /*Titulos de las pestañas*/
+            /*Consola*/
+            var salidaTab = document.createElement('a');
+            salidaTab.className = "nav-item nav-link";
+            salidaTab.id = "nav-simbolos-" + sub +"tab";
+            salidaTab.setAttribute("data-toggle","tab");
+            salidaTab.setAttribute("href","#nav-" +sub+"Simbolos");
+            salidaTab.setAttribute("aria-controls","navSimbolos"+sub);
+            salidaTab.setAttribute("aria-selected","false");
+            salidaTab.appendChild(document.createTextNode('Tabla símbolos'));
+
+            /*Contenedor Tabla de simbolos*/
+            var contSimbolos = document.createElement('div');
+            contSimbolos.className = "tab-pane fade";
+            contSimbolos.id ="nav-" +sub+"Simbolos" //"navCont-"+sub;
+            contSimbolos.setAttribute("role","tabpanel");
+            contSimbolos.setAttribute("aria-labelledby","nav-"+sub+"tabSalida");
+            
+            /*Area de Tabla de simbolos..*/            
+            var areaSimbolos = document.createElement('TEXTAREA');
+            areaSimbolos.id = sub + "Simbolos";
+            areaSimbolos.setAttribute("rows","8");
+            areaSimbolos.value = "Tabla simbolos "+ sub;    
+
+            var tablaStack = tablaSimbolos(sub + "simbolos");
+            contSimbolos.appendChild(tablaStack);
+            
+            navTab.append(salidaTab);//Titulo Consola de salida
+            contenedorSalida.appendChild(contSimbolos); // Contenedor consola de salida   
+
+            /*------------------Errores :v----------------------------------*/ 
+            /*Titulos de las pestañas*/
+            /*Consola*/
+            var erroresTab = document.createElement('a');
+            erroresTab.className = "nav-item nav-link";
+            erroresTab.id = "nav-simbolos-" + sub +"tab";
+            erroresTab.setAttribute("data-toggle","tab");
+            erroresTab.setAttribute("href","#nav-" +sub+"Errores");
+            erroresTab.setAttribute("aria-controls","navSimbolos"+sub);
+            erroresTab.setAttribute("aria-selected","false");
+            erroresTab.appendChild(document.createTextNode('Errores'));
+
+            /*Contenedor Tabla de simbolos*/
+            var contErrores = document.createElement('div');
+            contErrores.className = "tab-pane fade";
+            contErrores.id ="nav-" +sub+"Errores" //"navCont-"+sub;
+            contErrores.setAttribute("role","tabpanel");
+            contErrores.setAttribute("aria-labelledby","nav-"+sub+"tabSalida");
+            
+            /*Area de Tabla de simbolos..*/            
+            var areaErrores = document.createElement('TEXTAREA');
+            var tablaError = tablaErrores(sub + "Errores");
+            areaErrores.id = sub + "Errores";
+            areaErrores.setAttribute("rows","8");
+            //areaErrores.value = "Errores "+ sub;    
+            //contErrores.appendChild(areaErrores);
+            contErrores.appendChild(tablaError);
+            
+            navTab.append(erroresTab);//Titulo Errores
+            contenedorSalida.appendChild(contErrores); // Contenedor consola de Errores     
+            
+            /*------------------Stack :v----------------------------------*/ 
+            /*Titulos de las pestañas*/
+            /*Consola*/
+            var stackTab = document.createElement('a');
+            stackTab.className = "nav-item nav-link";
+            stackTab.id = "nav-simbolos-" + sub +"tab";
+            stackTab.setAttribute("data-toggle","tab");
+            stackTab.setAttribute("href","#nav-" +sub+"Stack");
+            stackTab.setAttribute("aria-controls","navSimbolos"+sub);
+            stackTab.setAttribute("aria-selected","false");
+            stackTab.appendChild(document.createTextNode('Stack'));
+
+            /*Contenedor Tabla de simbolos*/
+            var contStack = document.createElement('div');
+            contStack.className = "tab-pane fade";
+            contStack.id ="nav-" +sub+"Stack" //"navCont-"+sub;
+            contStack.setAttribute("role","tabpanel");
+            contStack.setAttribute("aria-labelledby","nav-"+sub+"tabSalida");
+            
+            /*Area de Tabla de simbolos..*/            
+            var areaStack = document.createElement('TEXTAREA');
+            areaStack.id = sub + "Stack";
+            areaStack.setAttribute("rows","8");
+            //areaStack.value = "Stack "+ sub; 
+            
+            
+            
+            
+
+
+
+            contStack.appendChild(areaStack);
+            
+            navTab.append(stackTab);//Titulo Stack
+            contenedorSalida.appendChild(contStack); // Contenedor consola de Stack             
+                    
+
+            /*------------------Heap :v----------------------------------*/ 
+            /*Titulos de las pestañas*/
+            /*Consola*/
+            var heapTab = document.createElement('a');
+            heapTab.className = "nav-item nav-link";
+            heapTab.id = "nav-simbolos-" + sub +"tab";
+            heapTab.setAttribute("data-toggle","tab");
+            heapTab.setAttribute("href","#nav-" +sub+"Heap");
+            heapTab.setAttribute("aria-controls","navSimbolos"+sub);
+            heapTab.setAttribute("aria-selected","false");
+            heapTab.appendChild(document.createTextNode('Heap'));
+
+            /*Contenedor Tabla de simbolos*/
+            var contHeap = document.createElement('div');
+            contHeap.className = "tab-pane fade";
+            contHeap.id ="nav-" +sub+"Heap" //"navCont-"+sub;
+            contHeap.setAttribute("role","tabpanel");
+            contHeap.setAttribute("aria-labelledby","nav-"+sub+"tabSalida");
+            
+            /*Area de Tabla de simbolos..*/            
+            var areaHeap = document.createElement('TEXTAREA');
+            areaHeap.id = sub + "Heap";
+            areaHeap.setAttribute("rows","8");
+            //areaHeap.value = "Heap"+ sub;    
+            contHeap.appendChild(areaHeap);
+            
+            navTab.append(heapTab);//Titulo Stack
+            contenedorSalida.appendChild(contHeap); // Contenedor consola de Stack                         
+
+            tabPannel.appendChild(navTab);// Titulos Pestaña
+            tabPannel.appendChild(contenedorSalida);// Contenedor Pestaña
+            colConsola.appendChild(tabPannel);
+            
+            filaEditores.appendChild(columnaEditor);
+            filaEditores.appendChild(columnaDeb);
+            contenedor.appendChild(filaEditores);
+            contenedor.appendChild(colConsola);
+            contEdicion.appendChild(contenedor);
+            contenedorPaginas.appendChild(contEdicion);
+                             
+        }      
+
+        function abrirArchivo(e) 
+        {
+            var archivo = e.target.files[0];                           
+            if (!archivo) {
+                return;
+            }
+            var lector = new FileReader();
+            lector.onload = function(e) {
+                var contenido = e.target.result;
+                mostrarContenido(contenido);
+            };
+            lector.readAsText(archivo);
+        }
+     
+
+        function mostrarContenido(contenido) 
+        {
+            //alert(contenido);
+
+            /*Para buscar el editor adecuado*/
+            var path = document.getElementById('archivo').value;  
+            var partes = path.split("\\");
+            //alert(partes.length);
+            var sub = partes[2];
+            //alert('Buscando editor ' + sub);
+
+            var elemento = document.getElementById(sub);            
+            elemento.value = contenido;
+
+            prepararArea(sub);
+            prepararAreaDebuger(sub+"D");
+            //elemento.innerHTML = contenido;
+            prepararArea(sub + "Salida");
+            //prepararArea(sub + "Simbolos");
+            //prepararArea(sub + "Errores");
+            prepararArea(sub + "Stack");
+            prepararArea(sub + "Heap");
+        }
+
+
+        function mostrarContenido2(contenido, path) 
+        {
+            //alert(contenido);
+            var cont = JSON.parse(contenido);
+            /*Para buscar el editor adecuado*/             
+            var partes = path.split("\\");
+            //alert(partes.length);
+            var sub = partes[partes.length - 1];
+            //alert('Buscando editor ' + sub);
+
+            var elemento = document.getElementById(sub);            
+            elemento.value = cont.contenido;
+
+            prepararArea(sub);
+            prepararAreaDebuger(sub+"D");
+            //elemento.innerHTML = contenido;
+            prepararArea(sub + "Salida");
+            //prepararArea(sub + "Simbolos");
+            //prepararArea(sub + "Errores");
+            prepararArea(sub + "Stack");
+            prepararArea(sub + "Heap");
+        }        
+
+        
+        function prepararArea(area)
+        {
+            var cEditor = CodeMirror.fromTextArea(document.getElementById(area),
+            {                 
+                lineNumbers: true,
+                matchBrackets: true,
+                mode: "gccStyle",                
+                styleActiveLine: true,            
+                gutters: ["CodeMirror-linenumbers", "breakpoints"]
+            });
+            cEditor.on("gutterClick", function(cm, n) 
+            {
+                var info = cm.lineInfo(n);            
+                cm.setGutterMarker(n, "breakpoints", info.gutterMarkers ? null : makeMarker());
+                if(info.gutterMarkers == null)
+                {
+                    agregarBreakPoint( obtenerActivo(), n);
+                }
+                else
+                {
+                    quitarBreakPoint(obtenerActivo(), n);
+                }                       
+                //clearActiveLines(cm);
+            }); 
+            
+            editores[area] = cEditor;
+        } 
+        
+        function prepararAreaDebuger(area)
+        {
+            var cEditor = CodeMirror.fromTextArea(document.getElementById(area),
+            {
+                lineNumbers: true,
+                matchBrackets: true,
+                mode: "javascript",
+                showCursorWhenSelecting: true,
+                inputStyle: "contenteditable",     
+                styleActiveLine: true,   
+                showCursorWhenSelecting : true,       
+                gutters: ["CodeMirror-linenumbers", "breakpoints"]
+            });
+            cEditor.on("gutterClick", function(cm, n) 
+            {
+                var info = cm.lineInfo(n);                
+                cm.setGutterMarker(n, "breakpoints", info.gutterMarkers ? null : makeMarker());                
+                if(info.gutterMarkers == null)
+                {
+                    agregarBreakPoint( obtenerActivo() + "*D", n);
+                    
+                }
+                else
+                {
+                    quitarBreakPoint(obtenerActivo() + "*D", n);
+                }       
+            });  
+            
+            editores[area] = cEditor;
+        }          
+
+
+        function tablaSimbolos(nombre)
+        {
+            var tabla = document.createElement('tab');
+            tabla.id = "tabla-"+nombre;            
+            tabla.className = "table";
+            var encabezadoH  = document.createElement('thead');
+            encabezadoH.className = "thead-dark";
+            var fila = document.createElement('tr');
+            fila.className = "width:25%";
+            var nombre = document.createElement('th');
+            nombre.appendChild(document.createTextNode('NOMBRE'));
+            var id = document.createElement('th');
+            id.appendChild(document.createTextNode('ID'));
+            var ambito = document.createElement('th');
+            ambito.appendChild(document.createTextNode('AMBITO'));
+            var nivel = document.createElement('th');
+            nivel.appendChild(document.createTextNode('NIVEL'));                                    
+            var posicion = document.createElement('th');
+            posicion.appendChild(document.createTextNode('POSICION'));    
+            var rol = document.createElement('th');
+            rol.appendChild(document.createTextNode('ROL'));
+            var tamanio = document.createElement('th');
+            tamanio.appendChild(document.createTextNode('TAMAÑO'));
+            var visibilidad = document.createElement('th');
+            visibilidad.appendChild(document.createTextNode('VISIBILIDAD'));
+            var dimension = document.createElement('th');
+            dimension.appendChild(document.createTextNode('DIMENSION'));
+                        
+            
+
+            var cuerpoTabla = document.createElement('tbody');
+            cuerpoTabla.id = "tabla"+nombre;
+
+
+            encabezadoH.append(nombre);
+            encabezadoH.append(id);
+            encabezadoH.append(ambito);
+            encabezadoH.append(nivel);
+            encabezadoH.append(posicion);
+            encabezadoH.append(rol);
+            encabezadoH.append(tamanio);
+            encabezadoH.append(visibilidad);
+            encabezadoH.append(dimension);
+            
+
+            tabla.appendChild(encabezadoH);
+            tabla.appendChild(cuerpoTabla);
+            return tabla;
+                     
+        }
+
+
+
+        function tablaErrores(nombre)
+        {
+            var tabla = document.createElement('tab');
+            tabla.id = "tabla-"+nombre;            
+            tabla.className = "table";
+            var encabezadoH  = document.createElement('thead');
+            encabezadoH.className = "thead-dark";
+
+            var fila = document.createElement('tr');
+            var idL = document.createElement('th');
+            idL.appendChild(document.createTextNode('LINEA'));
+            var tipoL = document.createElement('th');
+            tipoL.appendChild(document.createTextNode('COLUMNA'));
+            var ambitoL = document.createElement('th');
+            ambitoL.appendChild(document.createTextNode('TIPO'));
+            var posicionL = document.createElement('th');
+            posicionL.appendChild(document.createTextNode('DESCRIPCION'));                                    
+         
+            var cuerpoTabla = document.createElement('tbody');
+            cuerpoTabla.id = "tabla"+nombre;         
+
+            encabezadoH.append(idL);
+            encabezadoH.append(tipoL);
+            encabezadoH.append(ambitoL);
+            encabezadoH.append(posicionL);            
+            tabla.appendChild(encabezadoH);
+            tabla.appendChild(cuerpoTabla);
+            return tabla;
+                     
+        }
+
+        function agregarSimbolo(tabla,nombreS, id, ambito, nivel, posicion, rol, tamano, visibilidad, dimension)
+        {
+            
+            var theadT = document.createElement('thead');
+            var fila = document.createElement('tr');
+
+            var nombreC = document.createElement('th');
+            nombreC.appendChild(document.createTextNode(nombreS));
+
+            var idC = document.createElement('th');
+            idC.appendChild(document.createTextNode(id));
+
+            var ambitoC = document.createElement('th');
+            ambitoC.appendChild(document.createTextNode(ambito));
+
+            var nivelC = document.createElement('th');
+            nivelC.appendChild(document.createTextNode(nivel));            
+
+            var posicionC = document.createElement('th');
+            posicionC.appendChild(document.createTextNode(posicion));
+
+            var rolC = document.createElement('th');
+            rolC.appendChild(document.createTextNode(rol));
+
+            var tamanoC = document.createElement('th');
+            tamanoC.appendChild(document.createTextNode(tamano));            
+
+            var visibilidadC = document.createElement('th');
+            visibilidadC.appendChild(document.createTextNode(visibilidad));  
+
+            var dimensionC = document.createElement('th');
+            dimensionC.appendChild(document.createTextNode(dimension));              
+            
+            fila.appendChild(nombreC);
+            fila.appendChild(idC);
+            fila.appendChild(ambitoC);
+            fila.appendChild(nivelC);                        
+            fila.appendChild(posicionC);
+            fila.appendChild(rolC);
+            fila.appendChild(tamanoC);
+            fila.appendChild(visibilidadC);
+            fila.appendChild(dimensionC);
+            theadT.appendChild(fila);
+            tabla.append(theadT);                    
+        }
+
+        function agregarError(tabla, linea, columna, tipo, descripcion)
+        {
+            var theadT = document.createElement('thead');
+            var fila = document.createElement('tr');
+            var idT = document.createElement('th');
+            idT.appendChild(document.createTextNode(linea));
+
+            var tipoT = document.createElement('th');
+            tipoT.appendChild(document.createTextNode(columna));     
+
+            var ambitoT = document.createElement('th');
+            ambitoT.appendChild(document.createTextNode(tipo)); 
+
+            var posicionT = document.createElement('th');
+            posicionT.appendChild(document.createTextNode(descripcion)); 
+            
+            fila.appendChild(idT);
+            fila.appendChild(tipoT);
+            fila.appendChild(ambitoT);
+            fila.appendChild(posicionT);            
+            theadT.appendChild(fila);
+            tabla.append(theadT);                    
+        }        
+
+
+        function makeMarker() {
+        var marker = document.createElement("div");
+        marker.style.color = "#822";
+        marker.innerHTML = "●";
+        return marker;
+        }      
+        
+        function obtenerActivo()
+        {
+            var navegador = document.getElementById('nav-tab');
+            //alert(navegador.childElementCount);
+            var archivos = navegador.childNodes;   
+            var activo = "" ;        
+            var i =0;
+            for(i = 0  ; i < archivos.length; i ++)
+            {
+                //alert('Archivo '+ archivos[i].className);
+                if(archivos[i].className == "nav-item nav-link active show")
+                {
+                    var partes = archivos[i].id.split("-");
+                    if(partes.length>3)
+                    {
+                        return partes[1]+"-"+partes[2];
+                    }
+                    return partes[1];
+                }
+            }            
+            return activo;
+        }
+        function agregarBreakPoint(id, numero)
+        {
+            var lista = document.getElementById('breakpoints');
+            var punto = document.createElement('option');
+            punto.id = id +"-" +numero;
+            punto.value = numero
+            punto.appendChild(document.createTextNode(id));
+            lista.appendChild(punto);
+        }
+
+        function quitarBreakPoint(id, numero)
+        {
+            var punto  = document.getElementById(id+"-" +numero);	
+            if (!punto){
+                //alert("El elemento selecionado no existe");
+            } else {
+                 var padre = punto.parentNode;
+                padre.removeChild(punto);
+            }
+
+        }
+
+        function listarBreakPoint()
+        {
+            
+            alert('Puntos '+ breakPoints.length);
+            /*breakPoints.forEach(element => 
+            {
+                alert('Punto '+element.id + " posicion " + element.numero);
+            });*/
+        }
+
+
+        /*Abrimos archivos importados desde archivo-------------------------------------------------------------*/
+        
+      var http_request = false;
+      function abrirArchivo2(data) {
+
+          var url = '/abrirArchivo'; // Este metodo devuelve 0 si no existe y un 1 si sí :v y la data ahuevos.
+          http_request = false;
+          if (window.XMLHttpRequest) 
+          { 
+              http_request = new XMLHttpRequest();
+              if (http_request.overrideMimeType) 
+              {
+                  http_request.overrideMimeType('text/xml');                  
+              }
+          } 
+          else if (window.ActiveXObject) 
+          { 
+              try {
+                  http_request = new ActiveXObject("Msxml2.XMLHTTP");
+              } catch (e) 
+              {
+                  try {
+                      http_request = new ActiveXObject("Microsoft.XMLHTTP");
+                  } catch (e) {}
+              }
+          }
+
+          if (!http_request) {
+              alert('Falla :( No es posible crear una instancia XMLHTTP');
+              return false;
+          }
+
+        
+          http_request.onreadystatechange = function()
+            {
+                if (this.readyState == 4 && this.status == 200) 
+                {                    
+                    mostrarContenido2(this.responseText, data);
+                }                
+            };
+          http_request.open('POST', url, true);
+          http_request.setRequestHeader("Content-type", "application/json");
+          http_request.setRequestHeader("dataType", "json");
+          var path = {'path':data};
+          http_request.send(JSON.stringify(path)); 
+      }
+
+      /* devuelve cualquier archivo*/    
+      var http_request = false;  
+      function obtenerData(data) {
+
+          var url = '/abrirArchivo'; // Este metodo devuelve 0 si no existe y un 1 si sí :v y la data ahuevos.
+          http_request = false;
+          if (window.XMLHttpRequest) 
+          { 
+              http_request = new XMLHttpRequest();
+              if (http_request.overrideMimeType) 
+              {
+                  http_request.overrideMimeType('text/xml');                  
+              }
+          } 
+          else if (window.ActiveXObject) 
+          { 
+              try {
+                  http_request = new ActiveXObject("Msxml2.XMLHTTP");
+              } catch (e) 
+              {
+                  try {
+                      http_request = new ActiveXObject("Microsoft.XMLHTTP");
+                  } catch (e) {}
+              }
+          }
+
+          if (!http_request) {
+              alert('Falla :( No es posible crear una instancia XMLHTTP');
+              return false;
+          }
+
+        
+          http_request.onreadystatechange = function()
+            {
+                if (this.readyState == 4 && this.status == 200) 
+                {                    
+                    return this.responseText;
+                    //mostrarContenido2(this.responseText, data);
+                }                
+            };
+          http_request.open('POST', url, true);
+          http_request.setRequestHeader("Content-type", "application/json");
+          http_request.setRequestHeader("dataType", "json");
+          var path = {'path':data};
+          http_request.send(JSON.stringify(path)); 
+      }      
+
+      function receptor() {
+
+          
+          if (http_request.readyState == 4) 
+          {
+              if (http_request.status == 200) 
+              {
+                alert(http_request.body);                  
+              } 
+              else 
+              {
+                  alert('Hubo problemas con la petición.');
+              }
+          }
+      }    
+      
+      function parseo(cadena)
+      {
+          var lecciones = carga.parse(cadena);
+      }  
+      
+      function importar(path)
+      {
+          /*Primero abrimos el archivo y lo mostramos :v qué pros+++:v*/
+        nuevo(path);
+        abrirArchivo2(path);
+        /*Ahora analizamos los archivos para generar sus salidas.*/
+      }
+
+      /*Lanzamos la aplicacion que estamos jalando desde el inicio*/
+
+        function mostrarContenido3(contenido, path) 
+        {
+            //alert(contenido);
+            /*Para buscar el editor adecuado*/             
+            var partes = path.split("\\");
+            //alert(partes.length);
+            var sub = partes[partes.length - 1];
+            //alert('Buscando editor ' + sub);
+
+            var elemento = document.getElementById(sub);            
+            elemento.value = contenido;
+
+            prepararArea(sub);
+            prepararAreaDebuger(sub+"D");
+            //elemento.innerHTML = contenido;
+            prepararArea(sub + "Salida");
+            //prepararArea(sub + "Simbolos");
+            //prepararArea(sub + "Errores");
+            prepararArea(sub + "Stack");
+            prepararArea(sub + "Heap");
+        }       
+
+
+    function leccion(path, contenido)
+    {
+        nuevo(path);
+        mostrarContenido3(contenido, path);            
+    }
+    inicio();
+    function inicio()
+    {
+        var pathI = document.getElementById("leccionI").innerText;
+        var codigoI = document.getElementById("codigoI").value;
+        leccion(pathI,codigoI);
+    }
+
+
+    /*Variables globales para el debuger */
+    var puntos = [];
+    var posicionPuntos = 0;
+    /*Variables globales para el debuger */
+    function debugear()
+    {
+        posicionPuntos=0;
+        var ul = document.getElementById('breakpoints');        
+        var array = ul.getElementsByTagName("option"); 
+        var li = quicksort(array);    
+        puntos = li;
+    }
+
+    function siguientePunto()
+    {
+        var numero  = puntos[posicionPuntos].value;
+        var archivo = puntos[posicionPuntos].id.split("-");
+        debug(numero,archivo);        
+        posicionPuntos ++ ;
+    }
+
+        function quicksort(array) {
+            if (array.length <= 1) 
+            {
+                return array;
+            }
+
+            var pivot = array[0];            
+            var left = []; 
+            var right = [];
+
+            for (var i = 1; i < array.length; i++) 
+            {
+                //console.log(array[i].value +"<"+ pivot.value);
+                var item = array[i];
+                
+
+                if(parseInt(item.value) < parseInt(pivot.value))
+                {
+                    left.push(array[i]);
+                }
+                else
+                {
+                    right.push(array[i]);
+                }
+                //array[i].value < pivot.value ? left.push(array[i]) : right.push(array[i]);
+            }
+            
+            var l_ =quicksort(left); 
+            var r_ = quicksort(right);
+            l_.push(pivot);
+            for(i =0; i<r_.length;i++)
+            {
+                l_.push(r_[i]);
+            }
+            return l_;
+            //quicksort(left).concat(pivot, quicksort(right));
+        };
+
+
+        function filtro(tipo)
+        {
+	        	//alert(tipo);
+	            var input, filtro, ul, li, a, i;
+	            input = document.getElementById("entrada");
+	            filtro = tipo.toUpperCase();           
+	            ul = document.getElementById("listaLecciones");
+	            li = ul.getElementsByTagName("li");
+	            for (i = 0; i < li.length; i++) {
+	                a = li[i].getElementsByTagName("a")[0];
+	                if (a.innerHTML.toUpperCase().indexOf(filtro) > -1) {
+	                    li[i].style.display = "";
+	                } else {
+	                    li[i].style.display = "none";        
+	                }
+	            }
+        }    
+
+        function busqueda() {
+            var input, filtro, ul, li, a, i;
+            input = document.getElementById("entrada");
+            filtro = input.value.toUpperCase();
+            ul = document.getElementById("listaLecciones");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                if (a.innerHTML.toUpperCase().indexOf(filtro) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";        
+                }
+            }
+        }   
+        
+        function debug(numero, archivo)
+        {
+            var nombre = "nav-"+archivo[0];
+            /*var area = document.getElementById(nombre).childNodes[0].childNodes[1].childNodes[0].childNodes[1].childNodes[5];
+            var lineas = area.childNodes[0].childNodes[0].childNodes[0].childNodes[0];*/
+            var area = document.getElementById(nombre).childNodes[0].childNodes[1].childNodes[0].childNodes[1].childNodes[5];
+            var lineas = area.childNodes[0].childNodes[0].childNodes[0].childNodes[0].childNodes[4];            
+            /*class="CodeMirror-activeline"
+            Hacemos un for para encontra la linea y se fue a la puta papu :v
+            */
+           var i = 0;        
+           for (i = 0; i < lineas.childElementCount; i++) 
+           {
+                lineas.childNodes[i].childNodes[0].className= "CodeMirror-gutter-wrapper";
+                lineas.childNodes[i].childNodes[1].className= " CodeMirror-line " ;                               
+           }           
+           lineas.childNodes[numero].className = "CodeMirror-activeline" ;
+           lineas.childNodes[numero].childNodes[0].className="CodeMirror-activeline-backgroundD CodeMirror-linebackground";
+           alert('Siguiente');
+        }
+
+
+
+        function compilar()
+        {
+
+            //alert(obtenerActivo());
+            var vector = obtenerActivo();
+            //var contenedor =  document.getElementById(vector[1]);            
+            //alert(contenedor.value);
+            var cadena = editores[vector].getValue();
+            Iniciar(cadena);            
+        }
+        /*
+            editor  = nombre
+            debuger = nombre + "d"
+            salida  = nombre + "salida"
+            stack   = nombre + "stack"
+            heap    = nombre + "heap"  
+            tabladeSimbolos = "tabla-"+nombre       
+        
+        */
+
+        function limpiarErrores()
+        {
+            /*Primero obtenemos el nombre del archivo actual*/
+            var nombre = obtenerActivo();               
+            var tabla  = document.getElementById("tabla-"+nombre+ "Errores"); 
+            var padre = tabla.parentNode;
+            padre.replaceChild(tablaErrores(nombre + "Errores"),tabla);        
+            
+        }
+
+        function limpiarSimbolos()
+        {
+            /*Primero obtenemos el nombre del archivo actual*/
+            var nombre = obtenerActivo();               
+            var tabla  = document.getElementById("tabla-"+nombre+ "Simbolo"); 
+            var padre = tabla.parentNode;
+            padre.replaceChild(tablaErrores(nombre + "Simbolo"),tabla);        
+            
+        }
+
+
+        function addError(linea, columna, tipo, descripcion)
+        {
+            /*Primero obtenemos el nombre del archivo actual*/
+            var nombre = obtenerActivo();
+            /*Ahora obtenemos el elemento tabla*/
+            var tabla  = document.getElementById("tabla-"+nombre+ "Errores");
+            agregarError(tabla,linea, columna, tipo, descripcion);
+        }
+
+        function addSimbolo(nombreS, id, ambito, nivel, posicion, rol, tamano, visibilidad, dimension)
+        {            
+            /*Primero obtenemos el nombre del archivo actual*/
+            var nombre = obtenerActivo();
+            /*Ahora obtenemos el elemento tabla*/
+            var tabla  = document.getElementById("tabla-"+nombre+ "simbolos");
+            /*Agregamos a la tabla el nuevo símbolo*/
+            agregarSimbolo(tabla,nombreS, id, ambito, nivel, posicion, rol, tamano, visibilidad, dimension);            
+        }       
+        
+        function addSalida(mensaje)
+        {
+            var nombre = obtenerActivo(); // Nombre del archivo actual.
+            var textoActual = editores[nombre+"Salida"].getValue();
+            textoActual = textoActual + "\n" + mensaje;
+            editores[nombre+"Salida"].setValue(textoActual);
+        }
+
+        function addStack(posicion, valor)
+        {
+            var nombre = obtenerActivo(); // Nombre del archivo actual.
+            var contenido = editores[nombre+"Stack"].getValue();
+            
+            var index = contenido.split("\n");
+            index[posicion] = valor; // Actualizamos el valor
+            var nuevoContenido = "";
+            var i;
+            for(i = 0 ; i< index.length; i ++)
+            {
+                nuevoContenido = nuevoContenido + index[i];
+            }
+            editores[nombre+"Stack"].setValue(nuevoContenido);// Actualizamos el heap.        
+        }
+
+        function addHeap(valor)
+        {
+            var nombre = obtenerActivo(); // Nombre del archivo actual.
+            var  contActual = editores[nombre+"Heap"].getValue();
+            contActual = contActual+"\n"+valor;
+            editores[nombre+"Heap"].setValue(contActual);
+        }
+
+        function add3D(cadena)
+        {
+            var nombre = obtenerActivo(); // Nombre del archivo actual.            
+            editores[nombre+"D"].setValue(cadena);
+        }
+
+    </script>  
+
+    
+</html>

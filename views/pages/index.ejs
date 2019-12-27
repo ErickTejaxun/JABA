@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include ../partials/head %>
+</head>
+	<body class="">
+		<header>
+			<% include ../partials/header %>
+		</header>
+        <div class="text-center bg-danger text-white ">
+            <h1>GCC Compiler</h1>
+            <p>Compiler as a servirce</p> 
+        </div> 
+		<div class="container">
+		  <div class="row">
+		    <div class="col-sm">
+		    	<div class="col-sm">
+					<a  class="btn btn-primary" href="/editor">Editor en linea</a>
+				</div>
+				<div class="col-sm">
+					<a  class="btn btn-primary" href="/editor">Depurador</a>                	
+                </div>
+                <div class="col-sm">
+                	<a  class="btn btn-primary" href="/reportes">Reporte</a>                					
+                </div>
+		    </div>
+		    <div class="col-9 ">
+				<div class="dropdown">
+				  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+				    Tipo de Reporte
+				  </button>
+				  <div class="dropdown-menu">
+				    <a class="dropdown-item" onclick="filtro('Compilación');return false;">Reporte Errores compiladores</a>
+				    <a class="dropdown-item" onclick="filtro('Tabla');return false;">Reporte Tabla de símbolos</a>				   
+					<a class="dropdown-item" onclick="filtro('ast');return false;">Reporte AST</a>
+					<a class="dropdown-item" onclick="filtro('Optimización');return false;">Reporte de optimización</a>
+					<a class="dropdown-item" onclick="filtro('-');return false;">Ver todos</a>
+				  </div>
+				</div>
+				<input type="text" id="entrada" onkeyup="busqueda()" placeholder="Nombre de la lección.." title="Escriba el nombre">	                        	
+				<ul id="listaLecciones" class="list-group-item list-group-item-action" >
+				    <% titulos.forEach(function(titulo) {%>
+				        <li class="list-group-item" id="<%= titulo.tipo%>"  >
+				        	<a href="/reporte/<%= titulo.codigo%>">
+								<div class="container">
+								  <div class="row">
+								    <div class="col-sm">
+								      <%= titulo.titulo %>
+								    </div>
+								    <div class="col-sm">
+								      <%= titulo.tipo%>
+									</div>
+								    <div class="col-sm">
+										<%= titulo.codigo%>
+									  </div>									
+								  </div>
+								</div>
+							</a>								
+						</li>				        
+				    <% }); %>
+				</ul>	                                                                      
+		    </div>
+		  </div>
+		</div>
+		<footer>
+	</body>
+    <script>
+        function busqueda() {
+            var input, filtro, ul, li, a, i;
+            input = document.getElementById("entrada");
+            filtro = input.value.toUpperCase();
+            ul = document.getElementById("listaLecciones");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                if (a.innerHTML.toUpperCase().indexOf(filtro) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";        
+                }
+            }
+        }
+
+        function filtro(tipo)
+        {
+	        	//alert(tipo);
+	            var input, filtro, ul, li, a, i;
+	            input = document.getElementById("entrada");
+	            filtro = tipo.toUpperCase();           
+	            ul = document.getElementById("listaLecciones");
+	            li = ul.getElementsByTagName("li");
+	            for (i = 0; i < li.length; i++) {
+	                a = li[i].getElementsByTagName("a")[0];
+	                if (a.innerHTML.toUpperCase().indexOf(filtro) > -1) {
+	                    li[i].style.display = "";
+	                } else {
+	                    li[i].style.display = "none";        
+	                }
+	            }
+        }
+        function mensaje(id)
+        {
+        	alert(id);
+        }
+    </script>  
+</html>

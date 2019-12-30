@@ -46,6 +46,8 @@ function compilar(raiz)
     var resultados = [];
     resultados.push(lista3D);
     resultados.push(listaErrores);
+    entornoGlobal.imprimir();
+
     return resultados;
 }
 
@@ -484,6 +486,20 @@ var Entorno = function(anterior)
         listaErrores.push("La variable "+id +" no existe en la tabla de símbolos");
         return null;
     };
+
+    self.imprimir = function()
+    {
+        var entornoActual = self;
+        while(entornoActual !=null)
+        {            
+            Object.keys(entornoActual.tablaSimbolos).forEach(function(key) {
+                console.log(key, entornoActual.tablaSimbolos[key]);
+            });            
+            entornoActual = entornoActual.anterior;
+            console.log("-------------------------------------------> Entorno");
+        }                
+        return null;        
+    }
 };
 
 function generarTemporal()
@@ -567,7 +583,8 @@ var Declaracion = function(linea, columna, tipo, id, exp)
     self.generarCodigo = function(entorno)
     {
         /*generamos codigo*/
-        entorno.addSimbolo(new Simbolo(linea,columna,id,tipo));
+        //function(linea, columna, id, tipo, rol, valor)
+        entorno.addSimbolo(new Simbolo(linea,columna,id,tipo,0,0));
         var simbolo = entorno.buscarSimbolo(self.id);
         var posicion = generarTemporal();
         lista3D.push(posicion + " = p + "+ simbolo.posicion + ";\t// Posicion relativa de la variable " + self.id);        
@@ -578,7 +595,7 @@ var Declaracion = function(linea, columna, tipo, id, exp)
             return;
         }        
         //listaErrores.push("Error");
-        console.log("Error linea:\t "+self.linea +"\tcolumna:\t"+self.columna);
+        console.error("Error linea:\t "+self.linea +"\tcolumna:\t"+self.columna);
     }    
 };
 
@@ -834,7 +851,7 @@ var Suma = function(linea, columna, i, d)
     self.generarCodigo = function(entorno)
     {
         var vali = self.operandoI.generarCodigo(entorno); // Resultado1
-        var vald = self.operandoD.generarCodigo(entorno); // Resultado2        
+        var vald = self.operandoD.generarCodigo(entorno); // Resultado2         
         var etiqueta = generarTemporal();
         var resultado= null;
         switch(vali.tipo)
@@ -845,14 +862,15 @@ var Suma = function(linea, columna, i, d)
                     case "boolean":
                     case "int":
                         lista3D.push(etiqueta + " = " + vali.valor + " + " + vald.valor+";");
-                        resultado = new Resultado(self.linea, self.columna, etiqueta, "", "int");
+                        return new Resultado(self.linea, self.columna, etiqueta, "", "int");
                     break;
                     case "double":
                         lista3D.push(etiqueta + " = " + vali.valor + " + " + vald.valor+";");
-                        resultado = new Resultado(self.linea, self.columna, etiqueta, "", "double");
+                        return new Resultado(self.linea, self.columna, etiqueta, "", "double");
                     break;                    
                     default:                
-                    listaErrores.push("Error de tipos " + vali.tipo+ " + "+vald.tipo+ " linea: "+linea + " columna: "+columna);
+                        listaErrores.push("Error de tipos " + vali.tipo+ " + "+vald.tipo+ " linea: "+linea + " columna: "+columna);
+                        return;
                     break;
                 }
             break;
@@ -879,12 +897,14 @@ var Suma = function(linea, columna, i, d)
                         lista3D.push(tmp7  + " = stack["+tmp6+"];// valor nueva cadena");
                         lista3D.push("heap[h] = " + nulo +"; // Fin cadena nueva");
                         lista3D.push("h = h + 1; ");
-                        resultado = new Resultado(self.linea, self.columna, tmp7, "", "string");                        
+                        return new Resultado(self.linea, self.columna, tmp7, "", "string");                        
                     break;
                 }
             break;
+
         }        
-        
+        console.log("Error en operación (+) tipos incopatibles:  Tipo1: "+vali.tipo  + " \tTipo2: "+ vald.tipo);
+        return null;
         if(vali.flag == 0  && vald.flag ==0)
         {
             
@@ -1024,40 +1044,39 @@ var ExpId = function(linea, columna, id)
     {        
         var tmp1 = generarTemporal();
         var tmp2 = generarTemporal();
-        var simbolo = entorno.buscarSimbolo(self.id);    
-        console.log("Variable "+ simbolo.id + " encontarada");
-        console.log("Variable tipo "+ simbolo.tipo + " encontarada");
+        console.log("Buscando la variable "+self.id);
+        var simbolo = entorno.buscarSimbolo(self.id); 
+        console.log("Id: "+ simbolo.id + "\tTipo: "+simbolo.tipo); 
         if(simbolo !=  null)
         {
             lista3D.push(tmp1 + " = p + "+ simbolo.posicion + "; // Posicion local "+id);
-            lista3D.push(tmp2 + " = stack["+tmp1 +"] ; // Valor de "+id);
-            //console.log(simbolo);        
+            lista3D.push(tmp2 + " = stack["+tmp1 +"] ; // Valor de "+id);                  
             if(simbolo.tipo == "string")
             {
                 var tmp3 = generarTemporal();
                 lista3D.push(tmp3 + " = stack["+tmp2 +"] ; // Direccion en el heap");
-                var resultado = new Resultado(self.linea, self.columna, tmp3, tmp2, 1);
+                var resultado = new Resultado(self.linea, self.columna, tmp3, tmp2, self.tipo);
                 resultado.flag = 0;
                 return resultado;        
             }
             else 
             if(simbolo.tipo == "int")
             {
-                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, 0);
+                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, self.tipo);
                 resultado.flag = 1;
                 return resultado;        
             }
             else 
             if(simbolo.tipo == "double")
             {
-                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, 0);
+                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, self.tipo);
                 resultado.flag = 2;
                 return resultado;        
             }  
             else
             if(simbolo.tipo == "boolean")
             {
-                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, 0);
+                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, self.tipo);
                 resultado.flag = 2;
                 return resultado;        
             }
@@ -1227,6 +1246,7 @@ INSTRUCCION:
          ASIGNACION{$$=$1;}
         |DECLARACION{$$=$1;}
         |IMPRESION {$$=$1;} 
+        |error
 ;
 
 IMPRESION: 'println' + '(' + EXP + ')' + '; '

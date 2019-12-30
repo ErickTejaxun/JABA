@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<% include ../partials/head %>
+    <% include ../partials/head %>
 </head>
 	<body onload="esconder()">
         <div class="text-center bg-danger text-white ">
@@ -124,7 +124,7 @@
     });
 
 
-</script>    
+</script>  
     <script>
 
         /*Agregamos el evento para preparar*/
@@ -1154,50 +1154,24 @@
             var editor = editores[partes[1]+"D"];
             //console.log(editor.getValue());              
             data.push(editor.getValue());
-        }    
-        var url = '/compilar3d'; // Este metodo devuelve 0 si no existe y un 1 si sí :v y la data ahuevos.          
-        http_request = false;
-            if (window.XMLHttpRequest) 
-            { 
-                http_request = new XMLHttpRequest();
-                if (http_request.overrideMimeType) 
-                {
-                    http_request.overrideMimeType('text/xml');                  
-                }
-            } 
-            else if (window.ActiveXObject) 
-            { 
-                try {
-                    http_request = new ActiveXObject("Msxml2.XMLHTTP");
-                } catch (e) 
-                {
-                    try {
-                        http_request = new ActiveXObject("Microsoft.XMLHTTP");
-                    } catch (e) {}
-                }
-            }
+        } 
+        var resultados = intermedio.parse(editor.getValue());
+        var stack = resultados[0];
+        var heap = resultados[1];
+        var temporales = resultados[2];
+        var salida = resultados[3];
+        addSalida(salida);
+        /*
+            var resultados = [];
+            resultados.push(stack);
+            resultados.push(heap);
+            resultados.push(temporales);
+            resultados.push(salidas);
+        */
+      }     
+      
+      
 
-            if (!http_request) {
-                alert('Falla :( No es posible crear una instancia XMLHTTP');
-                return false;
-            }
-
-            
-            http_request.onreadystatechange = function()
-                {                                        
-                    if (this.readyState == 4 && this.status == 200) 
-                    {                                           
-                        //mostrarContenido2(this.responseText, data);
-                        resultados3d(this.response);
-                    }                
-                };
-            http_request.open('POST', url, true);
-            http_request.setRequestHeader("Content-type", "application/json");
-            http_request.setRequestHeader("dataType", "json");
-            var path = {'codigo':data};
-            http_request.send(JSON.stringify(path));          
-        
-      }      
         function agregarCadena3d(lista)
         {
             //add3D(lista); 
@@ -1252,6 +1226,11 @@
             resultados.push(temporales);
             resultados.push(salidas);            
             */
+            limpiarErrores();
+            limpiarConsola();
+            limpiarHeap();
+            limpiarStack();
+            limpiarSimbolos();
             var resultado = JSON.parse(lista);            
             var code = resultado["resultado"];
             var code3 = JSON.parse(code);

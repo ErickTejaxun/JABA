@@ -2,10 +2,10 @@ String mensaje = "Hola mundo 1 2 3 4 5 @@@@                         s";
 int a = 666+10+10+66.66;
 double d = 10 + 66.6666;
 string erick = "78331339" + "   erick " + mensaje;
-String nombre = "Erick" ;
+/*String nombre = "Erick" ;
 println(a);
 println(mensaje);
 println(d);
 
-boolean flag = true;
+boolean flag = true;*/
 println(erick);

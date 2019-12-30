@@ -72,12 +72,12 @@
   }
 */
 var jaba = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,9],$V1=[1,7],$V2=[1,10],$V3=[1,11],$V4=[1,12],$V5=[1,13],$V6=[1,14],$V7=[5,10,16,18,19,20,21,22],$V8=[1,27],$V9=[1,21],$Va=[1,22],$Vb=[1,23],$Vc=[1,24],$Vd=[1,25],$Ve=[1,26],$Vf=[1,31],$Vg=[13,14,23];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,7],$V1=[1,10],$V2=[1,8],$V3=[1,11],$V4=[1,12],$V5=[1,13],$V6=[1,14],$V7=[1,15],$V8=[2,5,10,16,18,19,20,21,22],$V9=[1,28],$Va=[1,22],$Vb=[1,23],$Vc=[1,24],$Vd=[1,25],$Ve=[1,26],$Vf=[1,27],$Vg=[1,32],$Vh=[13,14,23];
 var parser = {trace: function trace () { },
 yy: {},
 symbols_: {"error":2,"INICIO":3,"LINSTRUCCIONES":4,"EOF":5,"INSTRUCCION":6,"ASIGNACION":7,"DECLARACION":8,"IMPRESION":9,"println":10,"(":11,"EXP":12,")":13,";":14,"TIPO":15,"id":16,"=":17,"int":18,"double":19,"string":20,"boolean":21,"char":22,"+":23,"entero":24,"decimal":25,"texto":26,"textosimple":27,"verdadero":28,"falso":29,"$accept":0,"$end":1},
 terminals_: {2:"error",5:"EOF",10:"println",11:"(",13:")",14:";",16:"id",17:"=",18:"int",19:"double",20:"string",21:"boolean",22:"char",23:"+",24:"entero",25:"decimal",26:"texto",27:"textosimple",28:"verdadero",29:"falso"},
-productions_: [0,[3,2],[4,2],[4,1],[6,1],[6,1],[6,1],[9,5],[8,5],[15,1],[15,1],[15,1],[15,1],[15,1],[15,1],[7,4],[12,3],[12,1],[12,1],[12,1],[12,1],[12,1],[12,1],[12,1]],
+productions_: [0,[3,2],[4,2],[4,1],[6,1],[6,1],[6,1],[6,1],[9,5],[8,5],[15,1],[15,1],[15,1],[15,1],[15,1],[15,1],[7,4],[12,3],[12,1],[12,1],[12,1],[12,1],[12,1],[12,1],[12,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -97,70 +97,70 @@ break;
 case 4: case 5: case 6:
 this.$=$$[$0];
 break;
-case 7:
+case 8:
 
         this.$ = new Impresion(_$[$0-4].first_line, _$[$0-4].first_column, $$[$0-2]);
     
 break;
-case 8:
+case 9:
 
         this.$ = new Declaracion(_$[$0-4].first_line,_$[$0-4].first_column,$$[$0-4],$$[$0-3],$$[$0-1]);
         //function(linea, columna, tipo, id, exp)
     
 break;
-case 9: case 10: case 11: case 12: case 13: case 14:
+case 10: case 11: case 12: case 13: case 14: case 15:
 this.$=$$[$0]
 break;
-case 15:
+case 16:
 
         //lista3D.push("asignacion");
         this.$ = new  Asignacion(_$[$0-3].first_line, _$[$0-3].first_column, $$[$0-3], $$[$0-1]);
     
 break;
-case 16:
+case 17:
 
 			this.$ = new Suma(_$[$0-2].first_line, _$[$0-2].first_column, $$[$0-2], $$[$0]);
 		
 break;
-case 17:
+case 18:
  
 			this.$ = new ExpInt(_$[$0].first_line, _$[$0].first_column, $$[$0]);
         
 break;
-case 18:
+case 19:
  
 			this.$ = new Expdecimal(_$[$0].first_line, _$[$0].first_column, $$[$0]);
         
 break;
-case 19:
+case 20:
             
             this.$ = new ExpString(_$[$0].first_line, _$[$0].first_column, $$[$0].substring(1,$$[$0].length-1));
         
 break;
-case 20:
+case 21:
 
             this.$ = new ExpChar(_$[$0].first_line, _$[$0].first_column, $$[$0][1]);
         
 break;
-case 21:
+case 22:
 
             this.$ = new ExpBoolean(_$[$0].first_line, _$[$0].first_column, 1);
         
 break;
-case 22:
+case 23:
 
             this.$ = new ExpBoolean(_$[$0].first_line, _$[$0].first_column, 0);
         
 break;
-case 23:
+case 24:
 
         this.$ = new ExpId(_$[$0].first_line, _$[$0].first_column, $$[$0]);
     
 break;
 }
 },
-table: [{3:1,4:2,6:3,7:4,8:5,9:6,10:$V0,15:8,16:$V1,18:$V2,19:$V3,20:$V4,21:$V5,22:$V6},{1:[3]},{5:[1,15],6:16,7:4,8:5,9:6,10:$V0,15:8,16:$V1,18:$V2,19:$V3,20:$V4,21:$V5,22:$V6},o($V7,[2,3]),o($V7,[2,4]),o($V7,[2,5]),o($V7,[2,6]),{16:[2,14],17:[1,17]},{16:[1,18]},{11:[1,19]},{16:[2,9]},{16:[2,10]},{16:[2,11]},{16:[2,12]},{16:[2,13]},{1:[2,1]},o($V7,[2,2]),{12:20,16:$V8,24:$V9,25:$Va,26:$Vb,27:$Vc,28:$Vd,29:$Ve},{17:[1,28]},{12:29,16:$V8,24:$V9,25:$Va,26:$Vb,27:$Vc,28:$Vd,29:$Ve},{14:[1,30],23:$Vf},o($Vg,[2,17]),o($Vg,[2,18]),o($Vg,[2,19]),o($Vg,[2,20]),o($Vg,[2,21]),o($Vg,[2,22]),o($Vg,[2,23]),{12:32,16:$V8,24:$V9,25:$Va,26:$Vb,27:$Vc,28:$Vd,29:$Ve},{13:[1,33],23:$Vf},o($V7,[2,15]),{12:34,16:$V8,24:$V9,25:$Va,26:$Vb,27:$Vc,28:$Vd,29:$Ve},{14:[1,35],23:$Vf},{14:[1,36]},o($Vg,[2,16]),o($V7,[2,8]),o($V7,[2,7])],
-defaultActions: {10:[2,9],11:[2,10],12:[2,11],13:[2,12],14:[2,13],15:[2,1]},
+table: [{2:$V0,3:1,4:2,6:3,7:4,8:5,9:6,10:$V1,15:9,16:$V2,18:$V3,19:$V4,20:$V5,21:$V6,22:$V7},{1:[3]},{2:$V0,5:[1,16],6:17,7:4,8:5,9:6,10:$V1,15:9,16:$V2,18:$V3,19:$V4,20:$V5,21:$V6,22:$V7},o($V8,[2,3]),o($V8,[2,4]),o($V8,[2,5]),o($V8,[2,6]),o($V8,[2,7]),{16:[2,15],17:[1,18]},{16:[1,19]},{11:[1,20]},{16:[2,10]},{16:[2,11]},{16:[2,12]},{16:[2,13]},{16:[2,14]},{1:[2,1]},o($V8,[2,2]),{12:21,16:$V9,24:$Va,25:$Vb,26:$Vc,27:$Vd,28:$Ve,29:$Vf},{17:[1,29]},{12:30,16:$V9,24:$Va,25:$Vb,26:$Vc,27:$Vd,28:$Ve,29:$Vf},{14:[1,31],23:$Vg},o($Vh,[2,18]),o($Vh,[2,19]),o($Vh,[2,20]),o($Vh,[2,21]),o($Vh,[2,22]),o($Vh,[2,23]),o($Vh,[2,24]),{12:33,16:$V9,24:$Va,25:$Vb,26:$Vc,27:$Vd,28:$Ve,29:$Vf},{13:[1,34],23:$Vg},o($V8,[2,16]),{12:35,16:$V9,24:$Va,25:$Vb,26:$Vc,27:$Vd,28:$Ve,29:$Vf},{14:[1,36],23:$Vg},{14:[1,37]},o($Vh,[2,17]),o($V8,[2,9]),o($V8,[2,8])],
+defaultActions: {11:[2,10],12:[2,11],13:[2,12],14:[2,13],15:[2,14],16:[2,1]},
 parseError: function parseError (str, hash) {
     if (hash.recoverable) {
         this.trace(str);
@@ -170,16 +170,33 @@ parseError: function parseError (str, hash) {
         throw error;
     }
 },
-parse: function parse(input) {
-    var self = this, stack = [0], tstack = [], vstack = [null], lstack = [], table = this.table, yytext = '', yylineno = 0, yyleng = 0, recovering = 0, TERROR = 2, EOF = 1;
+parse: function parse (input) {
+    var self = this,
+        stack = [0],
+        tstack = [], // token stack
+        vstack = [null], // semantic value stack
+        lstack = [], // location stack
+        table = this.table,
+        yytext = '',
+        yylineno = 0,
+        yyleng = 0,
+        recovering = 0,
+        TERROR = 2,
+        EOF = 1;
+
     var args = lstack.slice.call(arguments, 1);
+
+    //this.reductionCount = this.shiftCount = 0;
+
     var lexer = Object.create(this.lexer);
     var sharedState = { yy: {} };
+    // copy state
     for (var k in this.yy) {
-        if (Object.prototype.hasOwnProperty.call(this.yy, k)) {
-            sharedState.yy[k] = this.yy[k];
-        }
+      if (Object.prototype.hasOwnProperty.call(this.yy, k)) {
+        sharedState.yy[k] = this.yy[k];
+      }
     }
+
     lexer.setInput(input, sharedState.yy);
     sharedState.yy.lexer = lexer;
     sharedState.yy.parser = this;
@@ -188,123 +205,207 @@ parse: function parse(input) {
     }
     var yyloc = lexer.yylloc;
     lstack.push(yyloc);
+
     var ranges = lexer.options && lexer.options.ranges;
+
     if (typeof sharedState.yy.parseError === 'function') {
         this.parseError = sharedState.yy.parseError;
     } else {
         this.parseError = Object.getPrototypeOf(this).parseError;
     }
-    function popStack(n) {
+
+    function popStack (n) {
         stack.length = stack.length - 2 * n;
         vstack.length = vstack.length - n;
         lstack.length = lstack.length - n;
     }
-    _token_stack:
-        var lex = function () {
-            var token;
-            token = lexer.lex() || EOF;
-            if (typeof token !== 'number') {
-                token = self.symbols_[token] || token;
-            }
-            return token;
-        };
+
+_token_stack:
+    var lex = function () {
+        var token;
+        token = lexer.lex() || EOF;
+        // if token isn't its numeric value, convert
+        if (typeof token !== 'number') {
+            token = self.symbols_[token] || token;
+        }
+        return token;
+    }
+
     var symbol, preErrorSymbol, state, action, a, r, yyval = {}, p, len, newState, expected;
     while (true) {
+        // retreive state number from top of stack
         state = stack[stack.length - 1];
+
+        // use default actions if available
         if (this.defaultActions[state]) {
             action = this.defaultActions[state];
         } else {
             if (symbol === null || typeof symbol == 'undefined') {
                 symbol = lex();
             }
+            // read action for current state and first input
             action = table[state] && table[state][symbol];
         }
-                    if (typeof action === 'undefined' || !action.length || !action[0]) {
-                var errStr = '';
+
+_handle_error:
+        // handle parse error
+        if (typeof action === 'undefined' || !action.length || !action[0]) {
+            var error_rule_depth;
+            var errStr = '';
+
+            // Return the rule stack depth where the nearest error rule can be found.
+            // Return FALSE when no error recovery rule was found.
+            function locateNearestErrorRecoveryRule(state) {
+                var stack_probe = stack.length - 1;
+                var depth = 0;
+
+                // try to recover from error
+                for(;;) {
+                    // check for error recovery rule in this state
+                    if ((TERROR.toString()) in table[state]) {
+                        return depth;
+                    }
+                    if (state === 0 || stack_probe < 2) {
+                        return false; // No suitable error recovery rule available.
+                    }
+                    stack_probe -= 2; // popStack(1): [symbol, action]
+                    state = stack[stack_probe];
+                    ++depth;
+                }
+            }
+
+            if (!recovering) {
+                // first see if there's any chance at hitting an error recovery rule:
+                error_rule_depth = locateNearestErrorRecoveryRule(state);
+
+                // Report error
                 expected = [];
                 for (p in table[state]) {
                     if (this.terminals_[p] && p > TERROR) {
-                        expected.push('\'' + this.terminals_[p] + '\'');
+                        expected.push("'"+this.terminals_[p]+"'");
                     }
                 }
                 if (lexer.showPosition) {
-                    errStr = 'Parse error on line ' + (yylineno + 1) + ':\n' + lexer.showPosition() + '\nExpecting ' + expected.join(', ') + ', got \'' + (this.terminals_[symbol] || symbol) + '\'';
+                    errStr = 'Parse error on line '+(yylineno+1)+":\n"+lexer.showPosition()+"\nExpecting "+expected.join(', ') + ", got '" + (this.terminals_[symbol] || symbol)+ "'";
                 } else {
-                    errStr = 'Parse error on line ' + (yylineno + 1) + ': Unexpected ' + (symbol == EOF ? 'end of input' : '\'' + (this.terminals_[symbol] || symbol) + '\'');
+                    errStr = 'Parse error on line '+(yylineno+1)+": Unexpected " +
+                                  (symbol == EOF ? "end of input" :
+                                              ("'"+(this.terminals_[symbol] || symbol)+"'"));
                 }
                 this.parseError(errStr, {
                     text: lexer.match,
                     token: this.terminals_[symbol] || symbol,
                     line: lexer.yylineno,
                     loc: yyloc,
-                    expected: expected
+                    expected: expected,
+                    recoverable: (error_rule_depth !== false)
                 });
+            } else if (preErrorSymbol !== EOF) {
+                error_rule_depth = locateNearestErrorRecoveryRule(state);
             }
-        if (action[0] instanceof Array && action.length > 1) {
-            throw new Error('Parse Error: multiple actions possible at state: ' + state + ', token: ' + symbol);
-        }
-        switch (action[0]) {
-        case 1:
-            stack.push(symbol);
-            vstack.push(lexer.yytext);
-            lstack.push(lexer.yylloc);
-            stack.push(action[1]);
-            symbol = null;
-            if (!preErrorSymbol) {
+
+            // just recovered from another error
+            if (recovering == 3) {
+                if (symbol === EOF || preErrorSymbol === EOF) {
+                    throw new Error(errStr || 'Parsing halted while starting to recover from another error.');
+                }
+
+                // discard current lookahead and grab another
                 yyleng = lexer.yyleng;
                 yytext = lexer.yytext;
                 yylineno = lexer.yylineno;
                 yyloc = lexer.yylloc;
-                if (recovering > 0) {
-                    recovering--;
-                }
-            } else {
-                symbol = preErrorSymbol;
-                preErrorSymbol = null;
+                symbol = lex();
             }
-            break;
-        case 2:
-            len = this.productions_[action[1]][1];
-            yyval.$ = vstack[vstack.length - len];
-            yyval._$ = {
-                first_line: lstack[lstack.length - (len || 1)].first_line,
-                last_line: lstack[lstack.length - 1].last_line,
-                first_column: lstack[lstack.length - (len || 1)].first_column,
-                last_column: lstack[lstack.length - 1].last_column
-            };
-            if (ranges) {
-                yyval._$.range = [
-                    lstack[lstack.length - (len || 1)].range[0],
-                    lstack[lstack.length - 1].range[1]
-                ];
+
+            // try to recover from error
+            if (error_rule_depth === false) {
+                throw new Error(errStr || 'Parsing halted. No suitable error recovery rule available.');
             }
-            r = this.performAction.apply(yyval, [
-                yytext,
-                yyleng,
-                yylineno,
-                sharedState.yy,
-                action[1],
-                vstack,
-                lstack
-            ].concat(args));
-            if (typeof r !== 'undefined') {
-                return r;
-            }
-            if (len) {
-                stack = stack.slice(0, -1 * len * 2);
-                vstack = vstack.slice(0, -1 * len);
-                lstack = lstack.slice(0, -1 * len);
-            }
-            stack.push(this.productions_[action[1]][0]);
-            vstack.push(yyval.$);
-            lstack.push(yyval._$);
-            newState = table[stack[stack.length - 2]][stack[stack.length - 1]];
-            stack.push(newState);
-            break;
-        case 3:
-            return true;
+            popStack(error_rule_depth);
+
+            preErrorSymbol = (symbol == TERROR ? null : symbol); // save the lookahead token
+            symbol = TERROR;         // insert generic error symbol as new lookahead
+            state = stack[stack.length-1];
+            action = table[state] && table[state][TERROR];
+            recovering = 3; // allow 3 real symbols to be shifted before reporting a new error
         }
+
+        // this shouldn't happen, unless resolve defaults are off
+        if (action[0] instanceof Array && action.length > 1) {
+            throw new Error('Parse Error: multiple actions possible at state: '+state+', token: '+symbol);
+        }
+
+        switch (action[0]) {
+            case 1: // shift
+                //this.shiftCount++;
+
+                stack.push(symbol);
+                vstack.push(lexer.yytext);
+                lstack.push(lexer.yylloc);
+                stack.push(action[1]); // push state
+                symbol = null;
+                if (!preErrorSymbol) { // normal execution/no error
+                    yyleng = lexer.yyleng;
+                    yytext = lexer.yytext;
+                    yylineno = lexer.yylineno;
+                    yyloc = lexer.yylloc;
+                    if (recovering > 0) {
+                        recovering--;
+                    }
+                } else {
+                    // error just occurred, resume old lookahead f/ before error
+                    symbol = preErrorSymbol;
+                    preErrorSymbol = null;
+                }
+                break;
+
+            case 2:
+                // reduce
+                //this.reductionCount++;
+
+                len = this.productions_[action[1]][1];
+
+                // perform semantic action
+                yyval.$ = vstack[vstack.length-len]; // default to $$ = $1
+                // default location, uses first token for firsts, last for lasts
+                yyval._$ = {
+                    first_line: lstack[lstack.length-(len||1)].first_line,
+                    last_line: lstack[lstack.length-1].last_line,
+                    first_column: lstack[lstack.length-(len||1)].first_column,
+                    last_column: lstack[lstack.length-1].last_column
+                };
+                if (ranges) {
+                  yyval._$.range = [lstack[lstack.length-(len||1)].range[0], lstack[lstack.length-1].range[1]];
+                }
+                r = this.performAction.apply(yyval, [yytext, yyleng, yylineno, sharedState.yy, action[1], vstack, lstack].concat(args));
+
+                if (typeof r !== 'undefined') {
+                    return r;
+                }
+
+                // pop off stack
+                if (len) {
+                    stack = stack.slice(0,-1*len*2);
+                    vstack = vstack.slice(0, -1*len);
+                    lstack = lstack.slice(0, -1*len);
+                }
+
+                stack.push(this.productions_[action[1]][0]);    // push nonterminal (reduce)
+                vstack.push(yyval.$);
+                lstack.push(yyval._$);
+                // goto new state = table[STATE][NONTERMINAL]
+                newState = table[stack[stack.length-2]][stack[stack.length-1]];
+                stack.push(newState);
+                break;
+
+            case 3:
+                // accept
+                return true;
+        }
+
     }
+
     return true;
 }};
 
@@ -353,6 +454,8 @@ function compilar(raiz)
     var resultados = [];
     resultados.push(lista3D);
     resultados.push(listaErrores);
+    entornoGlobal.imprimir();
+
     return resultados;
 }
 
@@ -791,6 +894,20 @@ var Entorno = function(anterior)
         listaErrores.push("La variable "+id +" no existe en la tabla de símbolos");
         return null;
     };
+
+    self.imprimir = function()
+    {
+        var entornoActual = self;
+        while(entornoActual !=null)
+        {            
+            Object.keys(entornoActual.tablaSimbolos).forEach(function(key) {
+                console.log(key, entornoActual.tablaSimbolos[key]);
+            });            
+            entornoActual = entornoActual.anterior;
+            console.log("-------------------------------------------> Entorno");
+        }                
+        return null;        
+    }
 };
 
 function generarTemporal()
@@ -874,7 +991,8 @@ var Declaracion = function(linea, columna, tipo, id, exp)
     self.generarCodigo = function(entorno)
     {
         /*generamos codigo*/
-        entorno.addSimbolo(new Simbolo(linea,columna,id,tipo));
+        //function(linea, columna, id, tipo, rol, valor)
+        entorno.addSimbolo(new Simbolo(linea,columna,id,tipo,0,0));
         var simbolo = entorno.buscarSimbolo(self.id);
         var posicion = generarTemporal();
         lista3D.push(posicion + " = p + "+ simbolo.posicion + ";\t// Posicion relativa de la variable " + self.id);        
@@ -885,7 +1003,7 @@ var Declaracion = function(linea, columna, tipo, id, exp)
             return;
         }        
         //listaErrores.push("Error");
-        console.log("Error linea:\t "+self.linea +"\tcolumna:\t"+self.columna);
+        console.error("Error linea:\t "+self.linea +"\tcolumna:\t"+self.columna);
     }    
 };
 
@@ -1141,7 +1259,7 @@ var Suma = function(linea, columna, i, d)
     self.generarCodigo = function(entorno)
     {
         var vali = self.operandoI.generarCodigo(entorno); // Resultado1
-        var vald = self.operandoD.generarCodigo(entorno); // Resultado2        
+        var vald = self.operandoD.generarCodigo(entorno); // Resultado2         
         var etiqueta = generarTemporal();
         var resultado= null;
         switch(vali.tipo)
@@ -1152,14 +1270,15 @@ var Suma = function(linea, columna, i, d)
                     case "boolean":
                     case "int":
                         lista3D.push(etiqueta + " = " + vali.valor + " + " + vald.valor+";");
-                        resultado = new Resultado(self.linea, self.columna, etiqueta, "", "int");
+                        return new Resultado(self.linea, self.columna, etiqueta, "", "int");
                     break;
                     case "double":
                         lista3D.push(etiqueta + " = " + vali.valor + " + " + vald.valor+";");
-                        resultado = new Resultado(self.linea, self.columna, etiqueta, "", "double");
+                        return new Resultado(self.linea, self.columna, etiqueta, "", "double");
                     break;                    
                     default:                
-                    listaErrores.push("Error de tipos " + vali.tipo+ " + "+vald.tipo+ " linea: "+linea + " columna: "+columna);
+                        listaErrores.push("Error de tipos " + vali.tipo+ " + "+vald.tipo+ " linea: "+linea + " columna: "+columna);
+                        return;
                     break;
                 }
             break;
@@ -1186,12 +1305,14 @@ var Suma = function(linea, columna, i, d)
                         lista3D.push(tmp7  + " = stack["+tmp6+"];// valor nueva cadena");
                         lista3D.push("heap[h] = " + nulo +"; // Fin cadena nueva");
                         lista3D.push("h = h + 1; ");
-                        resultado = new Resultado(self.linea, self.columna, tmp7, "", "string");                        
+                        return new Resultado(self.linea, self.columna, tmp7, "", "string");                        
                     break;
                 }
             break;
+
         }        
-        
+        console.log("Error en operación (+) tipos incopatibles:  Tipo1: "+vali.tipo  + " \tTipo2: "+ vald.tipo);
+        return null;
         if(vali.flag == 0  && vald.flag ==0)
         {
             
@@ -1331,40 +1452,39 @@ var ExpId = function(linea, columna, id)
     {        
         var tmp1 = generarTemporal();
         var tmp2 = generarTemporal();
-        var simbolo = entorno.buscarSimbolo(self.id);    
-        console.log("Variable "+ simbolo.id + " encontarada");
-        console.log("Variable tipo "+ simbolo.tipo + " encontarada");
+        console.log("Buscando la variable "+self.id);
+        var simbolo = entorno.buscarSimbolo(self.id); 
+        console.log("Id: "+ simbolo.id + "\tTipo: "+simbolo.tipo); 
         if(simbolo !=  null)
         {
             lista3D.push(tmp1 + " = p + "+ simbolo.posicion + "; // Posicion local "+id);
-            lista3D.push(tmp2 + " = stack["+tmp1 +"] ; // Valor de "+id);
-            //console.log(simbolo);        
+            lista3D.push(tmp2 + " = stack["+tmp1 +"] ; // Valor de "+id);                  
             if(simbolo.tipo == "string")
             {
                 var tmp3 = generarTemporal();
                 lista3D.push(tmp3 + " = stack["+tmp2 +"] ; // Direccion en el heap");
-                var resultado = new Resultado(self.linea, self.columna, tmp3, tmp2, 1);
+                var resultado = new Resultado(self.linea, self.columna, tmp3, tmp2, self.tipo);
                 resultado.flag = 0;
                 return resultado;        
             }
             else 
             if(simbolo.tipo == "int")
             {
-                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, 0);
+                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, self.tipo);
                 resultado.flag = 1;
                 return resultado;        
             }
             else 
             if(simbolo.tipo == "double")
             {
-                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, 0);
+                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, self.tipo);
                 resultado.flag = 2;
                 return resultado;        
             }  
             else
             if(simbolo.tipo == "boolean")
             {
-                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, 0);
+                var resultado = new Resultado(self.linea, self.columna, tmp2, tmp1, self.tipo);
                 resultado.flag = 2;
                 return resultado;        
             }

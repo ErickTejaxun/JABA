@@ -71,7 +71,7 @@
     recoverable: (boolean: TRUE when the parser has a error recovery rule available for this particular error)
   }
 */
-var parser = (function(){
+var intermedio = (function(){
 var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,7],$V1=[1,26],$V2=[1,22],$V3=[1,23],$V4=[1,25],$V5=[1,24],$V6=[1,27],$V7=[1,16],$V8=[1,21],$V9=[1,15],$Va=[1,19],$Vb=[1,20],$Vc=[1,17],$Vd=[1,18],$Ve=[1,14],$Vf=[5,11,19,22,24,26,27,37,38,41,44,47,50,51,52,53],$Vg=[1,43],$Vh=[1,62],$Vi=[1,63],$Vj=[1,64],$Vk=[1,60],$Vl=[1,61],$Vm=[5,11,19,22,24,26,27,37,38,41,43,44,47,50,51,52,53],$Vn=[21,31],$Vo=[21,30,31,32,33,34,35,36,49,54,55],$Vp=[1,95],$Vq=[11,19,22,24,26,27,37,38,43,44,47,50,51,52,53];
 var parser = {trace: function trace () { },
 yy: {},
@@ -426,9 +426,7 @@ function compilar(raiz)
             else
 
             {
-
                 element.ejecutar();
-
             }
 
         });  
@@ -2274,9 +2272,9 @@ return new Parser;
 
 
 if (typeof require !== 'undefined' && typeof exports !== 'undefined') {
-exports.parser = parser;
-exports.Parser = parser.Parser;
-exports.parse = function () { return parser.parse.apply(parser, arguments); };
+exports.parser = intermedio;
+exports.Parser = intermedio.Parser;
+exports.parse = function () { return intermedio.parse.apply(intermedio, arguments); };
 exports.main = function commonjsMain (args) {
     if (!args[1]) {
         console.log('Usage: '+args[0]+' FILE');

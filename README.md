@@ -4,7 +4,7 @@
 This project consist in the develop of IDE to developers and one compiler of a lenguaje 95% same of java. 
 The object project is a IR in three address form. This is a one stack [machine](https://en.wikipedia.org/wiki/Stack_machine).
 
-'''
+```
 ...
 h = h + 1;
 t3 = p + 2; // simulación de cambio de ambito
@@ -14,7 +14,7 @@ t5 = t3 + 2; // Direccion paso parametro cadena 2
 stack[t5] = t1 ;// Pasando cadena 1
 p = p + 2; // Cambio real de ambito
 ...
-'''
+```
 
 This IR using two structure to execute.
 1. Stack: This structure is using to save the values of all values that need a method and function. 
